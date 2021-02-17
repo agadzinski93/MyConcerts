@@ -1,13 +1,35 @@
 <% layout("layout/boilerplate") %>
-<form action="/concerts/<%= concert._id %>?_method=PUT" method="POST">
-    <div>
-        <label for="title">Title</label>
-        <input type="text" id="title" name="concert[title]" value="<%= concert.title %>">
+<div class="row">
+    <h1 class="text-center">Edit Concert</h1>
+    <div class="col-6 offset-3">
+        <form action="/concerts/<%= concert._id %>?_method=PUT" method="POST">
+            <div class="mb-3">
+                <label class="form-label" for="title">Title</label>
+                <input class="form-control" type="text" id="title" name="concert[title]" value="<%= concert.title %>">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="location">Location</label>
+                <input class="form-control" type="text" id="location" name="concert[location]" value="<%= concert.location %>">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="image">Image</label>
+                <input class="form-control" type="text" id="title" name="concert[image]" value="<%= concert.image %>">
+            </div>
+            <div class="mb-3">
+                <label for="price" class="form-label">Concert Price</label>
+                <div class="input-group">
+                    <span class="input-group-text" id="price-label">$</span>
+                    <input type="text" class="form-control" id="price" placeholder="0.00" aria-describedby="price" name="concert[price]" value="<%= concert.price %>">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control" type="text" id="location" name="concert[description]"><%= concert.description %></textarea>
+            </div>
+            <div>
+                <button class="btn btn-info">Update Concert</button>
+            </div>
+        </form>
+        <a href="/concerts/<%= concert._id %>">Go Back</a>
     </div>
-    <div>
-        <label for="location">Location</label>
-        <input type="text" id="location" name="concert[location]" value="<%= concert.location %>">
-    </div>
-    <button>Update Concert</button>
-</form>
-<a href="/concerts/<%= concert._id %>">Go Back</a>
+</div>
