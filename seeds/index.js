@@ -23,9 +23,13 @@ async function seedDB() {
     await Concert.deleteMany({});
     for(let i = 0;i< 30; i++) {
         let random1000 = Math.floor(Math.random() * 1000);
+        let price = Math.floor(Math.random() * 250) + 100;
         let c = new Concert({
             title:`${sample(descriptors)} ${sample(places)}`,
-            location:`${cities[random1000].city}, ${cities[random1000].state}`
+            location:`${cities[random1000].city}, ${cities[random1000].state}`,
+            image:"https://picsum.photos/300/200",
+            description:"lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate aliquam corporis reiciendis quos facilis! Voluptas expedita magnam culpa inventore obcaecati ratione accusamus omnis voluptatem doloribus! Ea ipsam ducimus amet neque.",
+            price
         });
         await c.save();
     }
