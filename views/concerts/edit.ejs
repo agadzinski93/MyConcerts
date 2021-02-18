@@ -2,29 +2,34 @@
 <div class="row">
     <h1 class="text-center">Edit Concert</h1>
     <div class="col-6 offset-3">
-        <form action="/concerts/<%= concert._id %>?_method=PUT" method="POST">
+        <form action="/concerts/<%= concert._id %>?_method=PUT" method="POST" novalidate class="validation-required">
             <div class="mb-3">
                 <label class="form-label" for="title">Title</label>
-                <input class="form-control" type="text" id="title" name="concert[title]" value="<%= concert.title %>">
+                <input class="form-control" type="text" id="title" name="concert[title]" value="<%= concert.title %>" required>
+                <div class="invalid-feedback">Please enter a title</div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="location">Location</label>
-                <input class="form-control" type="text" id="location" name="concert[location]" value="<%= concert.location %>">
+                <input class="form-control" type="text" id="location" name="concert[location]" value="<%= concert.location %>" required>
+                <div class="invalid-feedback">Please enter a location</div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="image">Image</label>
-                <input class="form-control" type="text" id="title" name="concert[image]" value="<%= concert.image %>">
+                <input class="form-control" type="text" id="image" name="concert[image]" value="<%= concert.image %>" required>
+                <div class="invalid-feedback">Please submit an image</div>
             </div>
             <div class="mb-3">
                 <label for="price" class="form-label">Concert Price</label>
                 <div class="input-group">
                     <span class="input-group-text" id="price-label">$</span>
-                    <input type="text" class="form-control" id="price" placeholder="0.00" aria-describedby="price" name="concert[price]" value="<%= concert.price %>">
+                    <input type="text" class="form-control" id="price" placeholder="0.00" aria-describedby="price" name="concert[price]" value="<%= concert.price %>" required>
+                    <div class="invalid-feedback">Please enter a price</div>
                 </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="description">Description</label>
-                <textarea class="form-control" type="text" id="location" name="concert[description]"><%= concert.description %></textarea>
+                <textarea class="form-control" type="text" id="description" name="concert[description]" required><%= concert.description %></textarea>
+                <div class="invalid-feedback">Please enter a description</div>
             </div>
             <div>
                 <button class="btn btn-info">Update Concert</button>
