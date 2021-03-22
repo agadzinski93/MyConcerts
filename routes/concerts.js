@@ -3,6 +3,7 @@ const router = express.Router({caseSensitive:false});
 const {concertSchema} = require("../schemas");
 const catchAsync = require("../utilities/catchAsync");
 const Concert = require("../models/concert");
+const {isLoggedIn} = require("../middleware");
 const ExpressError = require("../utilities/ExpressError");
 
 function validateConcert(req,res,next) {
@@ -25,11 +26,11 @@ router.get("/",catchAsync(async(req,res)=>{
     res.render("concerts/index",{concerts});
 }));
 
-router.get("/new",(req,res)=>{
+router.get("/new", isLoggedIn, (req,res)=>{
     res.render("concerts/new");
 });
 
-router.post("/", validateConcert, catchAsync(async(req,res)=>{
+router.post("/", isLoggedIn, validateConcert, catchAsync(async(req,res)=>{
     let concert = new Concert(req.body.concert);
     await concert.save();
     req.flash('success', 'Concert Created!');
@@ -48,16 +49,16 @@ router.get("/:id/edit",catchAsync(async(req,res)=>{
     res.render(`concerts/edit`,{concert});
 }));
 
-router.put("/:id", validateConcert, catchAsync(async(req,res)=>{
+router.put("/:id", isLoggedIn, validateConcert, catchAsync(async(req,res)=>{
     await Concert.findByIdAndUpdate(req.params.id,{...req.body.concert});
     req.flash('success', 'Concert Updated!');
     res.redirect(`/concerts`);
 }));
 
-router.delete("/:id/",catchAsync(async(req,res)=>{
+router.delete("/:id/", isLoggedIn, catchAsync(async(req,res)=>{
     await Concert.findByIdAndDelete(req.params.id);
     req.flash('successDeleted', 'Concert Deleted!');
-    res.redirect(`/concerts`);
+    res.redirect('/concerts');
 }));
 
 module.exports = router;

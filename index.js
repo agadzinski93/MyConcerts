@@ -7,10 +7,14 @@ const methodOverride = require("method-override");
 const app = express();
 const path = require("path");
 const ExpressError = require("./utilities/ExpressError");
+const passport = require("passport");
+const localStrategy = require("passport-local");
+const User = require("./models/user");
 
 //Routes
 const routeConcert = require("./routes/concerts");
 const routeReviews = require("./routes/reviews");
+const routeUsers = require("./routes/users");
 
 mongoose.connect("mongodb://localhost:27017/concert-finder",{
     useNewUrlParser:true,
@@ -47,12 +51,21 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());    //Must use AFTER session()
+passport.use(new localStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req,res,next) => {
+    res.locals.currentUser = req.user    //Passport adds user obj to req.user
     res.locals.success = req.flash('success');
     res.locals.successDeleted = req.flash('successDeleted');
     res.locals.error = req.flash('error');
     next();
 });
+
+
 
 app.get("/",(req,res)=>{
     res.render("home");
@@ -60,6 +73,7 @@ app.get("/",(req,res)=>{
 
 app.use("/concerts", routeConcert);
 app.use("/concerts/:id/reviews", routeReviews);
+app.use("/", routeUsers);
 
 app.all('*', (req,res,next) => {
     next(new ExpressError("404 Page Not Found", 404));
