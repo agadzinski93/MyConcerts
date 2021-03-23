@@ -8,6 +8,10 @@ const ConcertSchema = new Schema({
     price:Number,
     description:String,
     location:String,
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'user'
+    },
     reviews: [{
         type: mongoose.SchemaTypes.ObjectId,
         ref:'review'

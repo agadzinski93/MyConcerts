@@ -29,6 +29,7 @@ async function seedDB() {
             location:`${cities[random1000].city}, ${cities[random1000].state}`,
             image:"https://picsum.photos/300/200",
             description:"lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate aliquam corporis reiciendis quos facilis! Voluptas expedita magnam culpa inventore obcaecati ratione accusamus omnis voluptatem doloribus! Ea ipsam ducimus amet neque.",
+            author:"60583dc3e1cf490f2c73da65",
             price
         });
         await c.save();
