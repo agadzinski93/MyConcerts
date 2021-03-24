@@ -7,10 +7,13 @@ const {
     isLoggedIn,
     isAuthor,
     validateConcert} = require("../middleware");
+const multer = require('multer');
+const {storage} = require('../cloudinary'); //Auto looks for index.js
+const upload = multer({storage});
 
 router.route("/")
     .get(catchAsync(concertCont.index))
-    .post(isLoggedIn, validateConcert, catchAsync(concertCont.createNew));
+    .post(isLoggedIn, upload.single('concert[image]'), validateConcert, catchAsync(concertCont.createNew));
 
 router.get("/new", isLoggedIn, concertCont.renderNew);
 

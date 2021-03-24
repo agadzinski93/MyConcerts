@@ -27,7 +27,10 @@ async function seedDB() {
         let c = new Concert({
             title:`${sample(descriptors)} ${sample(places)}`,
             location:`${cities[random1000].city}, ${cities[random1000].state}`,
-            image:"https://picsum.photos/300/200",
+            //image:"https://picsum.photos/300/200",
+            image: {
+                url: "https://res.cloudinary.com/dlv7hwwa7/image/upload/v1616555517/MyConcerts/wuvqnfostdjlilon44jr.png",
+                filename: "MyConcerts/wuvqnfostdjlilon44jr"},
             description:"lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate aliquam corporis reiciendis quos facilis! Voluptas expedita magnam culpa inventore obcaecati ratione accusamus omnis voluptatem doloribus! Ea ipsam ducimus amet neque.",
             author:"60583dc3e1cf490f2c73da65",
             price

@@ -1,3 +1,6 @@
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config();
+}
 const express = require("express");
 const mongoose = require("mongoose");
 const engine = require("ejs-mate");
@@ -6,6 +9,7 @@ const flash = require("connect-flash");
 const methodOverride = require("method-override");
 const app = express();
 const path = require("path");
+const PORT = process.env.PORT || 3000;
 const ExpressError = require("./utilities/ExpressError");
 const passport = require("passport");
 const localStrategy = require("passport-local");
@@ -85,6 +89,6 @@ app.use((err,req,res,next)=>{
     res.status(statusCode).render("error", {err});
 });
 
-app.listen(3000,()=>{
-    console.log("Port 3000");
+app.listen(PORT,()=>{
+    console.log(PORT);
 });
