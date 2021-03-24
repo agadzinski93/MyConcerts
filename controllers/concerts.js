@@ -12,6 +12,7 @@ module.exports = {
     async createNew(req,res){
         let concert = new Concert(req.body.concert);
         concert.author = req.user._id;
+        concert.image = {url: req.file.path, filename: req.file.filename};
         await concert.save();
         req.flash('success', 'Concert Created!');
         res.redirect(`/concerts/${concert._id}`);

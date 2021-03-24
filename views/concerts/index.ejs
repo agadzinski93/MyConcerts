@@ -6,7 +6,11 @@
         <a class="text-dark text-decoration-none" href="/concerts/<%= c._id %>">
             <div class="row">
                 <div class="col-md-4">
+                    <% if (c.image.url) { %>
+                        <img src="<%= c.image.url %>" alt="" class="img-fluid">
+                    <% } else { %>
                     <img src="<%= c.image %>" alt="" class="img-fluid">
+                    <% } %>
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
