@@ -6,7 +6,10 @@ module.exports.descriptors = [
     "Super",
     "Flashy",
     "Calm",
-    "Moody"
+    "Moody",
+    "Wild",
+    "Bright",
+    "Secret"
 ]
 
 module.exports.places = [
@@ -15,5 +18,9 @@ module.exports.places = [
     "Topic",
     "Rave",
     "Party",
-    "Club"
+    "Club",
+    "Fun",
+    "Group",
+    "Clique",
+    "League"
 ]
