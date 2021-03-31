@@ -1,0 +1,17 @@
+<% layout("layout/boilerplate") %>
+<div class="row">
+    <h1 class="text-center">Edit Photo</h1>
+    <div class="col-6 offset-3">
+        <img src="<%= concert.image.thumbnail %>" class="card-img-top img-thumbnail" alt="">
+        <form enctype="multipart/form-data" action="/concerts/<%= concert._id %>?_method=PATCH" method="POST" novalidate>
+            <div class="form-file">
+                <label class="form-label" for="imageUploader">Choose image</label>
+                <input type="file" class="form-control" name="concert[image]" id="imageUploader" />
+            </div>
+            <div>
+                <button class="btn btn-info">Update Image</button>
+            </div>
+        </form>
+        <a href="/concerts/<%= concert._id %>">Go Back</a>
+    </div>
+</div>

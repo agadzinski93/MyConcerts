@@ -1,28 +1,59 @@
 <% layout("layout/boilerplate") %>
-<h1>All Concerts</h1>
 
-<% for (let c of concerts) { %>
+<div id="map" style="width:100%;height:300px;"></div>
+<h1>All Concerts</h1>
+<form class="mb-3" action="/concerts" method="GET" content-type="application/x-www-form-urlencoded" >
+    <input type="text" name="search" placeholder="Search here">
+    <select name="num" id="">
+        <option value="1">1</option>
+        <option value="5">5</option>
+        <option value="10" selected>10</option>
+        <option value="30">30</option>
+        <option value="100">100</option>
+    </select>
+    <select name="sort" id="">
+        <option value="none">None</option>
+        <option value="titleA">Title [A...Z]</option>
+        <option value="titleZ">Title [Z...A]</option>
+        <option value="priceHigh">Price [Highest]</option>
+        <option value="priceLow">Price [Lowest]</option>
+    </select>
+</form>
+
+<% if (numOfPages > 1) { 
+    if (searchQuery) {
+        for (let i = 0; i < numOfPages; i++) { %>
+            <a href="<%=searchQuery %>&num=<%=numPerPage%><%=sortUrl%>&page=<%=i+1%>" ><%= i+1 %></a>
+<% } } else { 
+        for (let i = 0; i < numOfPages; i++) { %>
+        <a href="?num=<%=numPerPage%><%=sortUrl%>&page=<%=i+1%>" ><%= i+1 %></a> 
+<% }}}%>
+
+<% for (let i = 0; i < numPerPage && i < numPerPage && concerts[i]; i++) { %>
     <div class="card mb-3">
-        <a class="text-dark text-decoration-none" href="/concerts/<%= c._id %>">
+        <a class="text-dark text-decoration-none" href="/concerts/<%= concerts[i]._id %>">
             <div class="row">
                 <div class="col-md-4">
-                    <% if (c.image.url) { %>
-                        <img src="<%= c.image.url %>" alt="" class="img-fluid">
+                    <% if (concerts[i].image.url) { %>
+                        <img src="<%= concerts[i].image.url %>" alt="" class="img-fluid">
                     <% } else { %>
-                    <img src="<%= c.image %>" alt="" class="img-fluid">
+                    <img src="<%= concerts[i].image %>" alt="" class="img-fluid">
                     <% } %>
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <h5 class="card-title"><%= c.title %></h5>
-                        <p class="card-text"><%= c.description %></p>
-                        <p class="card-text"><small class="text-muted"><%= c.location %></p></small>
+                        <h5 class="card-title"><%= concerts[i].title %></h5>
+                        <p class="card-text"><%= concerts[i].description %></p>
+                        <p class="card-text"><small class="text-muted"><%= concerts[i].location %></p></small>
                     </div>
                 </div>
             </div>
         </a>
     </div>
 <% } %>
-<footer>
-    <a href="/concerts/new">Add Concert</a>
-</footer>
+
+<script>
+    const mapBoxToken = '<%= process.env.MAPBOX_TOKEN %>';
+    const concertObj = {features:<%- JSON.stringify(concerts) %>};
+</script>
+<script src="/js/clusterMap.js"></script>

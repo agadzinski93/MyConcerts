@@ -20,8 +20,13 @@ router.get("/new", isLoggedIn, concertCont.renderNew);
 router.route("/:id")
     .get(catchAsync(concertCont.renderConcert))
     .put(isLoggedIn, isAuthor, validateConcert, catchAsync(concertCont.editConcert))
-    .delete(isLoggedIn, catchAsync(concertCont.deleteConcert));
+    .patch(isLoggedIn, isAuthor, upload.single('concert[image]'), catchAsync(concertCont.editConcertPhoto))
+    .delete(isLoggedIn, isAuthor, catchAsync(concertCont.deleteConcert));
 
-router.get("/:id/edit", isLoggedIn, isAuthor, catchAsync(concertCont.renderEditConcert));
+router.route("/:id/edit")
+    .get(isLoggedIn, isAuthor, catchAsync(concertCont.renderEditConcert))
+    .delete(isLoggedIn, isAuthor, catchAsync(concertCont.deleteConcertPhoto));
+
+router.get("/:id/editPhoto", isLoggedIn, isAuthor, catchAsync(concertCont.renderEditConcertPhoto));
 
 module.exports = router;
