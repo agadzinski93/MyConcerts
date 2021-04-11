@@ -14,24 +14,39 @@ module.exports = {
             req.session.loggedPath = req.originalUrl;
             req.flash('error', 'You must be logged in');
             return res.redirect('/login');
-    }
-        next()
-    },
-    async isAuthor(req,res,next){
-        let concert = await Concert.findById(req.params.id);
-        if (!concert.author.equals(req.user._id)) {
-            req.flash('error', 'You are not authorized to do that');
-            return res.redirect(`/concerts/${req.params.id}`);
         }
-        next();
+          next();
+        },
+    async isAuthor(req,res,next){
+        try {
+            let concert = await Concert.findById(req.params.id);
+            if (!concert.author.equals(req.user._id)) {
+                req.flash('error', 'You are not authorized to do that');
+                return res.redirect(`/concerts/${req.params.id}`);
+            }
+                next();
+            }
+        catch(err) {
+            next(new ExpressError("No Such Concert Exists", 400));
+        }
+        
     },
     async isReviewAuthor(req,res,next){
-        let review = await Review.findById(req.params.reviewId);
-        if (!review.author.equals(req.user._id)) {
-            req.flash('error', 'You are not authorized to do that');
-            return res.redirect(`/concerts/${req.params.id}`);
+        try {
+            let review = await Review.findById(req.params.reviewId);
+            if (!review.author.equals(req.user._id)) {
+                req.flash('error', 'You are not authorized to do that');
+                return res.redirect(`/concerts/${req.params.id}`);
+            }
+            next();
+            }
+        catch(err) {
+            next(new ExpressError("No Such Concert Exists", 400));
         }
-        next();
+        
+    },
+    noConcertExists() {
+        throw new ExpressError("No Such Concert Exists", 400);
     },
     validateConcert(req,res,next) {
         let {error} = concertSchema.validate(req.body);
@@ -42,9 +57,6 @@ module.exports = {
         else {
             next();
         }
-    },
-    concertExists(concert) {
-        if (!concert) throw new ExpressError("No Such Concert Exists", 400);
     },
     validateReview(req,res,next) {
         let {error} = reviewSchema.validate(req.body);
