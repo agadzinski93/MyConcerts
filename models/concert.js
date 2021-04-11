@@ -36,6 +36,14 @@ const ConcertSchema = new Schema({
         type: mongoose.SchemaTypes.ObjectId,
         ref:'review'
     }]
+},{
+    toJSON: {virtuals:true}
+});
+
+ConcertSchema.index({location: 'text'});
+
+ConcertSchema.virtual('properties.popupMarkup').get(function() {
+    return `<a href="/concerts/${this._id}">${this.title}</a>`;
 });
 
 ConcertSchema.post('findOneAndDelete', async(doc) => {

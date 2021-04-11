@@ -1,10 +1,13 @@
 mapboxgl.accessToken = mapBoxToken;
-var map = new mapboxgl.Map({
-container: 'map',
-style: 'mapbox://styles/mapbox/dark-v10',
-center: [-103.59179687498357, 40.66995747013945],
-zoom: 3
+let map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/dark-v10',
+    center: [-103.59179687498357, 40.66995747013945],
+    zoom: 3
 });
+
+//Adds Navigation Controls to Map
+map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
  
 map.on('load', function () {
     // Add a new source from our GeoJSON data and
@@ -101,15 +104,9 @@ map.on('click', 'clusters', function (e) {
 // the location of the feature, with
 // description HTML from its properties.
 map.on('click', 'unclustered-point', function (e) {
-    var coordinates = e.features[0].geometry.coordinates.slice();
-    var mag = e.features[0].properties.mag;
-    var tsunami;
+    let popupText = e.features[0].properties.popupMarkup;
+    let coordinates = e.features[0].geometry.coordinates.slice();
     
-    if (e.features[0].properties.tsunami === 1) {
-    tsunami = 'yes';
-    } else {
-    tsunami = 'no';
-    }
     
     // Ensure that if the map is zoomed out such that
     // multiple copies of the feature are visible, the
@@ -121,7 +118,7 @@ map.on('click', 'unclustered-point', function (e) {
     new mapboxgl.Popup()
     .setLngLat(coordinates)
     .setHTML(
-    'magnitude: ' + mag + '<br>Was there a tsunami?: ' + tsunami
+    popupText
     )
     .addTo(map);
 });

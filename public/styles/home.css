@@ -1,0 +1,110 @@
+html {
+    font-size:16px;
+}
+
+body {
+    margin:0;
+    padding:0;
+    height:100vh;
+    background-color:#3D3C3C;
+    background-image:url('/assets/homeBanner2.jpg');
+    background-size:cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.bodyContainer {
+    display:flex;
+    background-color:rgba(0,0,0,0.5);
+    width:100%;
+    height:100%;
+    align-items:center;
+    justify-content:center;
+}
+
+.homeContainer {
+    width:65%;
+}
+
+.homeTitle {
+    margin:0 auto;
+    font-size:5rem;
+    color:#90A061;
+}
+
+.homeSubtitle {
+    font-size:3rem;
+    color:#84824F;
+}
+
+.homePhrase {
+    font-size:2rem;
+    color:#959594;
+}
+
+a {
+    width:7rem;
+    color:grey;
+    text-decoration:none;
+    border:0.125rem solid gray;
+    padding:0.5rem 1rem;
+    font-size:1rem;
+    text-align:center;
+    font-weight:bold;
+    text-transform: uppercase;
+}
+
+.browseLinkContainer {
+    font-size:1.5rem;
+    display:flex;
+    margin-top:4rem;
+}
+
+.browseLink {
+    color:#E4E4E3;
+    border-color:#E4E4E3;
+}
+
+.homeButtons {
+    font-size:1.5rem;
+    display:flex;
+    justify-content:left;
+    margin-top:4rem;
+}
+
+.homeButtons > a:not(:last-child) {
+    margin-right:5rem;
+}
+
+@media (max-width:800px) {
+    .bodyContainer {
+        align-items: flex-start;
+        height:90vh;
+        padding-top:10vh;
+        text-align:center;
+    }
+    .homeContainer {
+        width:75%;
+    }
+    .homeTitle {
+        margin:0 auto;
+        font-size:3rem;
+    }
+    
+    .homeSubtitle {
+        font-size:1.5rem;
+    }
+    
+    .homePhrase {
+        font-size:1rem;
+    }
+    .browseLinkContainer {
+        justify-content: center;
+    }
+    .homeButtons {
+        justify-content:center;
+    }
+    .homeButtons > a {
+        margin:0 auto;
+    }
+}

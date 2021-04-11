@@ -1,0 +1,13 @@
+html {
+    font-size:16px;
+}
+
+body {
+    display:flex;
+    flex-direction:column;
+    height:100vh;
+    background: rgb(79,77,77);
+    background: linear-gradient(135deg, rgba(79,77,77,1) 33%, rgba(109,93,1,1) 100%); 
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}

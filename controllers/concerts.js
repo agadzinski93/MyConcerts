@@ -1,8 +1,9 @@
 const Concert = require("../models/concert");
+const ExpressError = require("../utilities/ExpressError");
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({accessToken: mapBoxToken});
-const {concertExists} = require("../middleware");
+const {noConcertExists} = require("../middleware");
 const {cloudinary} = require("../cloudinary");
 
 module.exports = {
@@ -12,6 +13,7 @@ module.exports = {
             dbSearchQuery = {},
             searchQuery,
             numPerPage = parseInt(req.query.num) || 10,
+            currentPage = parseInt(req.query.page) || 1,
             numOfPages,
             docsToSkip,
             sortOption = {},
@@ -21,13 +23,14 @@ module.exports = {
         if (req.query.search) {
             searchQuery = req.originalUrl;
             if (searchQuery.includes('page'))
-                searchQuery = searchQuery.replace(/&page=./, '');
+                searchQuery = searchQuery.replace(/&page=[0-9]+/, '');console.log(searchQuery);
             if (searchQuery.includes('num'))
-                searchQuery = searchQuery.replace(/&num=./, '');
+                searchQuery = searchQuery.replace(/&num=[0-9]+/, '');console.log(searchQuery);
             if (searchQuery.includes('sort'))
-                searchQuery = searchQuery.replace(/&sort=.*$/, '');
+                searchQuery = searchQuery.replace(/&sort=.*$/, '');console.log(searchQuery);
 
-            dbSearchQuery = {title: new RegExp(`^${req.query.search}$`,`i`)};
+            dbSearchQuery = {$or: [{title: new RegExp(`^${req.query.search}$`,`i`)},
+                {location: new RegExp(`${req.query.search}`, 'i')}]};
         }
 
         switch(sortUrl) {
@@ -55,8 +58,8 @@ module.exports = {
         numOfPages = Math.ceil(count / numPerPage);
         docsToSkip = numPerPage * (req.query.page - 1);
         concerts = await Concert.find(dbSearchQuery, '', {sort: sortOption, skip: docsToSkip, limit: numPerPage});
-
-        res.render("concerts/index",{concerts, searchQuery, numPerPage, numOfPages, sortUrl});
+        res.render("concerts/index",{concerts, searchQuery, 
+            textQuery: req.query.search, numPerPage, currentPage, numOfPages, sortUrl});
     },
     renderNew(req,res) {
         res.render("concerts/new");
@@ -75,16 +78,24 @@ module.exports = {
         res.redirect(`/concerts/${concert._id}`);
     },
     async renderConcert(req,res){
-        let concert = await Concert.findById(req.params.id)
+        try{
+            let concert = await Concert.findById(req.params.id)
             .populate({path: 'reviews', populate: {path: 'author'}})
             .populate('author', 'username');
-        concertExists(concert);
-        res.render("concerts/details",{concert});
+            res.render("concerts/details",{concert});
+        }
+        catch(err) {
+            noConcertExists();
+        }
     },
     async renderEditConcert(req,res){
-        let concert = await Concert.findById(req.params.id);
-        concertExists(concert);
-        res.render(`concerts/edit`,{concert});
+        try {
+            let concert = await Concert.findById(req.params.id);
+            res.render(`concerts/edit`,{concert});
+        }
+        catch(err) {
+            noConcertExists();
+        }
     },
     async editConcert (req,res) {
         await Concert.findByIdAndUpdate(req.params.id,{...req.body.concert});
@@ -92,9 +103,13 @@ module.exports = {
         res.redirect(`/concerts`);
     },
     async renderEditConcertPhoto(req,res){
-        let concert = await Concert.findById(req.params.id);
-        concertExists(concert);
-        res.render(`concerts/editPhoto`,{concert});
+        try {
+            let concert = await Concert.findById(req.params.id);
+            res.render(`concerts/editPhoto`,{concert});
+        }
+        catch(err) {
+            noConcertExists();
+        }
     },
     async editConcertPhoto(req,res) {
         let imageNew = {url: req.file.path, filename: req.file.filename};

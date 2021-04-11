@@ -41,7 +41,7 @@ async function seedDB() {
                 url: "https://res.cloudinary.com/dlv7hwwa7/image/upload/v1616816120/MyConcerts/wduju3roeggb2tydde2h.webp",
                 filename: "MyConcerts/wduju3roeggb2tydde2h"},
             description:"lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate aliquam corporis reiciendis quos facilis! Voluptas expedita magnam culpa inventore obcaecati ratione accusamus omnis voluptatem doloribus! Ea ipsam ducimus amet neque.",
-            author:"60633c1c8b2bfd1ffcb4d4b2", //ADMIN
+            author:"6072af4999da912db8404593", //ADMIN
             price
         });
         await c.save();
