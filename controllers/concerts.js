@@ -23,11 +23,11 @@ module.exports = {
         if (req.query.search) {
             searchQuery = req.originalUrl;
             if (searchQuery.includes('page'))
-                searchQuery = searchQuery.replace(/&page=[0-9]+/, '');console.log(searchQuery);
+                searchQuery = searchQuery.replace(/&page=[0-9]+/, '');
             if (searchQuery.includes('num'))
-                searchQuery = searchQuery.replace(/&num=[0-9]+/, '');console.log(searchQuery);
+                searchQuery = searchQuery.replace(/&num=[0-9]+/, '');
             if (searchQuery.includes('sort'))
-                searchQuery = searchQuery.replace(/&sort=.*$/, '');console.log(searchQuery);
+                searchQuery = searchQuery.replace(/&sort=.*$/, '');
 
             dbSearchQuery = {$or: [{title: new RegExp(`^${req.query.search}$`,`i`)},
                 {location: new RegExp(`${req.query.search}`, 'i')}]};
