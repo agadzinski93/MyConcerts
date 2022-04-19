@@ -7,6 +7,18 @@ const UserSchema = new Schema({
         type:String,
         require: true,
         unique:true
+    },
+    followers: {
+        type:Array,
+        refPath: 'user',
+    },
+    following: {
+        type:Array,
+        refPath: 'user',
+    },
+    image: {
+        type:String,
+        require:true,
     }
 });
 

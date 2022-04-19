@@ -6,8 +6,8 @@ body {
     display:flex;
     flex-direction:column;
     height:100vh;
-    background: rgb(79,77,77);
-    background: linear-gradient(135deg, rgba(79,77,77,1) 33%, rgba(109,93,1,1) 100%); 
+    background: rgb(78,78,223);
+    background: linear-gradient(135deg, rgba(78,78,223,1) 33%, rgba(9,121,91,1) 100%, rgba(0,212,255,1) 100%); 
     background-repeat: no-repeat;
     background-attachment: fixed;
 }

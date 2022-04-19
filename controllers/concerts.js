@@ -12,7 +12,7 @@ module.exports = {
             count,
             dbSearchQuery = {},
             searchQuery,
-            numPerPage = parseInt(req.query.num) || 10,
+            numPerPage = (req.query.num >= 0) ? parseInt(req.query.num) || 10 : 10,
             currentPage = parseInt(req.query.page) || 1,
             numOfPages,
             docsToSkip,
@@ -29,7 +29,7 @@ module.exports = {
             if (searchQuery.includes('sort'))
                 searchQuery = searchQuery.replace(/&sort=.*$/, '');
 
-            dbSearchQuery = {$or: [{title: new RegExp(`^${req.query.search}$`,`i`)},
+            dbSearchQuery = {$or: [{title: new RegExp(`${req.query.search}`,`i`)},
                 {location: new RegExp(`${req.query.search}`, 'i')}]};
         }
 
@@ -79,10 +79,59 @@ module.exports = {
     },
     async renderConcert(req,res){
         try{
+            //Retrieve concert data
             let concert = await Concert.findById(req.params.id)
             .populate({path: 'reviews', populate: {path: 'author'}})
+            .populate(
+                {path:'author', 
+                populate:[
+                    {path:'followers', model:'user', select: 'username image'},
+                     'following']
+                }
+            );
+
+            //Aggregation pipeline to retrieve number of reviews and average score
+            let pipeline = [
+                {
+                  '$match': {
+                    '_id': concert._id
+                  }
+                }, {
+                  '$lookup': {
+                    'from': 'reviews', 
+                    'localField': 'reviews', 
+                    'foreignField': '_id', 
+                    'as': 'list'
+                  }
+                }, {
+                  '$project': {
+                    'count': {
+                      '$size': '$list'
+                    },
+                    'avg': {
+                      '$avg': '$list.rating'
+                    }
+                  }
+                }
+              ];
+
+            let aggregation = await Concert.aggregate(pipeline);
+            let numOfReviews = aggregation[0].count;
+            let avgScore = (numOfReviews === 0) ? 0 : aggregation[0].avg.toFixed(1);
+
+            //Query to retrieve related concerts based on concert title
+            let dbSearchQuery = {$and: [
+                {$or: [{title: new RegExp(`${concert.title}`,`i`)},
+                    {title: new RegExp(`${concert.title.substring(0, concert.title.indexOf(' '))}`, 'i')},
+                    {title: new RegExp(`${concert.title.substring(concert.title.indexOf(' ') + 1, concert.title.length - 1)}`, 'i')}]},
+                {_id: {$not: {$eq: req.params.id}}}]};
+
+            let related = await Concert.find(dbSearchQuery, 
+                {'title':1,'author':1, 'location':1, 'image':1, 'price':1}, 
+                {limit:5})
             .populate('author', 'username');
-            res.render("concerts/details",{concert});
+            
+            res.render("concerts/details",{concert, related, numOfReviews, avgScore});
         }
         catch(err) {
             noConcertExists();
