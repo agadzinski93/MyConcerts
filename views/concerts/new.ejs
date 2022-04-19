@@ -1,7 +1,7 @@
 <% layout("layout/boilerplate") %>
-<div class="row">
+<div class="row newContainer">
     <h1 class="text-center">New Concert</h1>
-    <div class="col-6 offset-3">
+    <div class="col-8 offset-2">
         <form enctype="multipart/form-data" action="/concerts" method="POST" novalidate class="validation-required">
             <div class="mb-3">
                 <label class="form-label" for="title">Title</label>
@@ -14,11 +14,11 @@
                 <div class="invalid-feedback">Please enter a location</div>
             </div>
             <div class="form-file">
-                <label class="form-label" for="imageUploader">Choose image</label>
+                <label class="form-label" for="imageUploader">Choose Image</label>
                 <input type="file" class="form-control" name="concert[image]" id="imageUploader" />
             </div>
             <div class="mb-3">
-                <label for="price" class="form-label">Concert Price</label>
+                <label for="price" class="form-label mt-3">Concert Price</label>
                 <div class="input-group">
                     <span class="input-group-text" id="price-label">$</span>
                     <input type="text" class="form-control" id="price" placeholder="0.00" aria-describedby="price" name="concert[price]" required>
@@ -30,10 +30,14 @@
                 <textarea class="form-control" type="text" id="location" name="concert[description]" required></textarea>
                 <div class="invalid-feedback">Please enter a description</div>
             </div>
-            <div>
-                <button class="btn btn-success">Add Concert</button>
+            <div class="addEditButtons">
+                <div>
+                    <button>Add Concert</button>
+                </div>
+                <div>
+                    <a href="/concerts"><div>Go Back</div></a>
+                </div>
             </div>
         </form>
-        <a href="/concerts">Go Back</a>
     </div>
 </div>

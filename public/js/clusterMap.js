@@ -1,7 +1,7 @@
 mapboxgl.accessToken = mapBoxToken;
 let map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/mapbox/dark-v10',
+    style: 'mapbox://styles/mapbox/streets-v11',
     center: [-103.59179687498357, 40.66995747013945],
     zoom: 3
 });
@@ -37,7 +37,7 @@ map.addLayer({
     'circle-color': [
     'step',
     ['get', 'point_count'],
-    '#51bbd6',
+    '#93F088',
     10,
     '#f1f075',
     25,
@@ -73,7 +73,7 @@ map.addLayer({
     source: 'concerts',
     filter: ['!', ['has', 'point_count']],
     paint: {
-    'circle-color': '#11b4da',
+    'circle-color': '#ff0000',
     'circle-radius': 4,
     'circle-stroke-width': 1,
     'circle-stroke-color': '#fff'

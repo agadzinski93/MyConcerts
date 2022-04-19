@@ -1,7 +1,7 @@
 <% layout("layout/boilerplate") %>
-<div class="row">
+<div class="row editContainer">
     <h1 class="text-center">Edit Concert</h1>
-    <div class="col-6 offset-3">
+    <div class="col-8 offset-2">
         <form action="/concerts/<%= concert._id %>?_method=PUT" method="POST" novalidate class="validation-required">
             <div class="mb-3">
                 <label class="form-label" for="title">Title</label>
@@ -26,10 +26,14 @@
                 <textarea class="form-control" type="text" id="description" name="concert[description]" required><%= concert.description %></textarea>
                 <div class="invalid-feedback">Please enter a description</div>
             </div>
-            <div>
-                <button class="btn btn-info">Update Concert</button>
+            <div class="addEditButtons">
+                <div>
+                    <button>Update Concert</button>
+                </div>
+                <div>
+                    <a href="/concerts/<%= concert._id %>"><div>Go Back</div></a>
+                </div>
             </div>
         </form>
-        <a href="/concerts/<%= concert._id %>">Go Back</a>
     </div>
 </div>
