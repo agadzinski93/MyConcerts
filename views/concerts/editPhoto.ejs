@@ -5,8 +5,9 @@
         <img src="<%= concert.image.thumbnail %>" class="card-img-top img-thumbnail mt-3" alt="">
         <form enctype="multipart/form-data" action="/concerts/<%= concert._id %>?_method=PATCH" method="POST" novalidate>
             <div class="form-file mt-3">
-                <label class="form-label" for="imageUploader">Choose image</label>
+                <label class="form-label" for="imageUploader">Choose Image</label>
                 <input type="file" class="form-control" name="concert[image]" id="imageUploader" />
+                <p class="max-file-size">Max File Size: 1MB</p>
             </div>
             <div class="addEditButtons">
                 <div>

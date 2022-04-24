@@ -50,6 +50,7 @@ module.exports = {
     },
     validateConcert(req,res,next) {
         let {error} = concertSchema.validate(req.body);
+        
         if (error) {
             let errorMessages = error.details.map(d => d.message).join(",");
             throw new ExpressError(errorMessages, 400);

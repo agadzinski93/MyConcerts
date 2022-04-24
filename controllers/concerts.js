@@ -1,10 +1,12 @@
 const Concert = require("../models/concert");
+const User = require("../models/user");
 const ExpressError = require("../utilities/ExpressError");
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({accessToken: mapBoxToken});
 const {noConcertExists} = require("../middleware");
 const {cloudinary} = require("../cloudinary");
+const Email = require("../utilities/Email");
 
 module.exports = {
     async index(req,res) {
@@ -66,14 +68,29 @@ module.exports = {
     },
     async createNew(req,res){
         let concert = new Concert(req.body.concert);
-        concert.author = req.user._id;
-        concert.image = {url: req.file.path, filename: req.file.filename};
+        concert.author = req.user.id;
+
+        if (req.file !== undefined) {
+            concert.image = {url: req.file.path, filename: req.file.filename};
+        }
+        else {
+            throw new ExpressError("Must upload an image", 400);
+        }
+        
         let geoData = await geocoder.forwardGeocode({
             query: concert.location,
             limit: 1
         }).send();
         concert.geometry = geoData.body.features[0].geometry;
         await concert.save();
+
+        //Get Creator's Follower List's Usernames and Emails
+        let user = await User.findOne({_id: {$eq: req.user.id}}, {'username':1, 'followers':1})
+                .populate(
+                    {path:'followers',select:'username email'});
+        let followerList = user.followers;
+        Email(followerList, concert, user.username).catch(console.error);
+
         req.flash('success', 'Concert Created!');
         res.redirect(`/concerts/${concert._id}`);
     },
@@ -161,6 +178,11 @@ module.exports = {
         }
     },
     async editConcertPhoto(req,res) {
+        //Find current concert, delete existing image
+        let concert = await Concert.findById(req.params.id);
+        if (concert.image.filename) 
+            await cloudinary.uploader.destroy(concert.image.filename);
+
         let imageNew = {url: req.file.path, filename: req.file.filename};
         await Concert.findByIdAndUpdate(req.params.id,{$set: {image: imageNew}});
         req.flash('success', 'Photo Updated!');
@@ -180,6 +202,10 @@ module.exports = {
         res.redirect(`/concerts/${req.params.id}`);
     },
     async deleteConcert(req,res) {
+        let concert = await Concert.findById(req.params.id);
+        if (concert.image.filename) 
+            await cloudinary.uploader.destroy(concert.image.filename);
+
         await Concert.findByIdAndDelete(req.params.id);
         req.flash('successDeleted', 'Concert Deleted!');
         res.redirect('/concerts');

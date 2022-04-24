@@ -9,7 +9,8 @@ const {
     validateConcert} = require("../middleware");
 const multer = require('multer');
 const {storage} = require('../cloudinary'); //Auto looks for index.js
-const upload = multer({storage});
+const filter = require("../utilities/validateImageFile");
+const upload = multer({storage, fileFilter: filter, limits: {fileSize: 1000000}});
 
 router.route("/")
     .get(catchAsync(concertCont.index))
