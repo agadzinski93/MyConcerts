@@ -15,6 +15,13 @@
 .hide {
     display:none;
 }
+a.userLink {
+    text-decoration:none;
+    color:#B3B2B2;
+}
+a.white {
+    color:#FFF;
+}
 .icon + span {
     display: none;
     position: absolute;
@@ -193,21 +200,25 @@
 .cardImageContainer {
     flex:1;
 }
-.follow {
+.follow,
+.attend {
     border:none;
     background-color:#239488;
     color:#FFF;
     text-transform:uppercase;
     font-size:0.75rem;
     padding:0.25rem 0.5rem;
+    vertical-align: middle;
 }
-.unfollow {
+.unfollow,
+.unattend {
     border:none;
     background-color:#E04D76;
     color:#FFF;
     text-transform:uppercase;
     font-size:0.75rem;
     padding:0.25rem 0.5rem;
+    vertical-align: middle;
 }
 .ratingSection > a + span {
     display:none;
@@ -304,34 +315,40 @@
     display:flex;
     flex-wrap:wrap;
 }
-.relatedConcertDetailsContainer > p {
+.relatedConcertDetailsContainer > p:first-child,
+.relatedConcertDetailsContainer > p:nth-child(2) {
     flex-basis:50%;
     padding:0.25rem;
     position:relative;
     max-height:60%;
     margin:0;
 }
-.relatedConcertDetailsContainer > p:nth-child(even) {
+.relatedConcertDetailsContainer > p:nth-child(2) {
     text-align: right;
 }
-.followersSection {
+.relatedConcertDetailsContainer > p:last-child {
+    padding:0.25rem;
+    flex-basis:100%;
+    text-align: right;
+}
+.attendeesSection {
     color:#FFF;
     background-color:#3949A0;
     padding:0.5rem 1rem;
     margin-top:1rem;
 }
-.followersSection > h3 {
+.attendeesSection > h3 {
     font-size:1.25rem;
     padding:0.5rem 0;
 }
-.followersContainer {
+.attendeesContainer {
     display:flex;
     flex-wrap:wrap;
     flex-flow:row;
 }
-.follower {
+.attendee {
     text-align:center;
-    flex-basis:12.5%;
+    flex-basis:7rem;
 }
 .profileImage {
     width:4rem;
@@ -341,7 +358,7 @@
     border-radius:50%;
     margin:0 auto;
 }
-.followersContainer > p {
+.attendeesContainer > p {
     text-align:center;
     width:100%;
     font-style:italic;
@@ -530,6 +547,96 @@
     background-color:rgba(32, 32, 32, 0.3);
     text-align:center;
 }
+.userPageContainer {
+    display:flex;
+    height:100vh;
+    flex-direction:column;
+}
+.userContainer {
+    display:flex;
+    flex-grow:1;
+    height:calc(100vh - 8rem);
+    min-height:40rem;
+}
+.userLeftContainer {
+    flex-basis:50%;
+}
+.userHeaderContainer {
+    display:flex;
+    flex-wrap:wrap;
+    width:90%;
+    height:max-content;
+    margin:0 5% 2rem 5%;;
+    background-color:#3949A0;
+}
+.userImageContainer {
+    flex-basis:25%;
+    text-align:center;
+    vertical-align: middle;
+}
+.userImageContainer > img {
+    border-radius:50%;
+    height:12rem;
+    max-height:50%;
+    margin-top:3.5rem;
+}
+.userInfo > h1 {
+    color:#FFF;
+    margin-top:1rem;
+    margin-left:1rem;
+    font-size:2rem;
+}
+.followersSection {
+    color:#FFF;
+    background-color:#3949A0;
+    padding:0.5rem 1rem;
+    margin:1rem 5%;
+    width:90%;
+}
+.followersSection > h3 {
+    font-size:1.25rem;
+    padding:0.5rem 0;
+}
+.followersContainer {
+    display:flex;
+    flex-wrap:wrap;
+    flex-flow:row;
+}
+.follower {
+    text-align:center;
+    flex-basis:7rem;
+}
+.follower a {
+    text-decoration:none;
+    color:inherit;
+}
+.profileImage {
+    width:4rem;
+    height:4rem;
+    background-repeat: no-repeat;
+    background-size:cover;
+    border-radius:50%;
+    margin:0 auto;
+}
+.followersContainer > p {
+    text-align:center;
+    width:100%;
+    font-style:italic;
+}
+.userRightContainer {
+    flex-basis:50%;
+    overflow: auto;
+    overflow-x: hidden;
+}
+.userConcertList {
+    width:100%;
+    
+}
+.noConcerts {
+    color:#FFF;
+    text-align:center;
+    font-style:italic;
+}
 @media (max-width:1366px) {
     .loginBanner {
         display:none;
@@ -553,8 +660,7 @@
         display:none;
     }
     .relatedConcertImage {
-        flex:1;
-        flex-basis:100%;
+        display:none;
     }
     .relatedConcertDetailsContainer {
         flex:1;
@@ -568,8 +674,23 @@
         height:50%;
         margin:0;
     }
+    .relatedConcertDetailsContainer > p {
+        flex-basis:100%;
+    }
     .relatedConcertDetailsContainer > p:nth-child(even) {
         display:none;
+    }
+    .userHeaderContainer {
+        flex-wrap:wrap;
+    }
+    .userImageContainer {
+        flex-basis:100%;
+    }
+    .userInfo {
+        margin:0 auto;
+    }
+    .userInfo > h1 {
+        margin:0 0 1rem 0;
     }
 }
 @media (max-width: 820px){
@@ -610,6 +731,21 @@
     }
     .detailsRightContainer {
         display:none;
+    }
+    .userPageContainer {
+        height:initial;
+        min-height:100vh;
+    }
+    .userContainer {
+        flex-wrap:wrap;
+        height:auto;
+    }
+    .userLeftContainer {
+        flex-basis:100%;
+    }
+    .userRightContainer {
+        flex-basis:100%;
+        overflow:visible;
     }
 }
 .flash-success {

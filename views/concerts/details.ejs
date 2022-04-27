@@ -35,7 +35,7 @@
                             <% } else { %> 
                                 reviews
                             <% } %></p>
-                        <h6 class="card-title">Created by <%= concert.author.username %> 
+                        <h6 class="card-title">Created by <a class="userLink" href="/user/<%=concert.author._id%>"><%= concert.author.username %></a> 
                             <% if (currentUser) { %> 
                                 <button id="follow" class="follow">Follow</button>
                                 <button id="unfollow" class="unfollow">Unfollow</button>
@@ -65,18 +65,23 @@
             </div>
             <% } %>
         </div>
-        <div class="followersSection">
-            <h3>Followers</h3>
-            <div class="followersContainer">
-                <% if (concert.author.followers.length > 0) { %>
-                <% for (let i = 0; i < 7 && i < concert.author.followers.length; i++) { %>
-                    <div class="follower" id="<% if (currentUser) { %><%=concert.author.followers[i].username%><%}%>">
-                        <div class="profileImage" style="background-image: url('<%= concert.author.followers[i].image %>');"></div>
-                        <p><%= concert.author.followers[i].username %></p>
+        <div class="attendeesSection">
+            <h3>Attendees
+                <% if (currentUser) { %> 
+                    <button id="attend" class="attend">Attend</button>
+                    <button id="unattend" class="unattend">Not Attending</button>
+                <% } %>
+            </h3>
+            <div class="attendeesContainer">
+                <% if (concert.attendees.length > 0) { %>
+                <% for (let i = 0; i < 7 && i < concert.attendees.length; i++) { %>
+                    <div class="attendee" id="<% if (currentUser) { %><%=concert.attendees[i].username%><%}%>">
+                        <div class="profileImage" style="background-image: url('<%= concert.attendees[i].image %>');"></div>
+                        <p><a class="userLink white" href="/user/<%=concert.attendees[i]._id%>"><%= concert.attendees[i].username %></a></p>
                     </div>
                 <% } %>
                 <% } else { %>
-                    <p><%= concert.author.username %> has no followers yet</p>
+                    <p>No one is going yet</p>
                 <% } %>
             </div>
         </div>
@@ -114,7 +119,7 @@
                 <div class="card mb-3 reviewContainer">
                     <div class="card-body">
                         <div class="reviewAuthorIconContainer">
-                            <h4 class="card-title reviewAuthor"><%= review.author.username %></h4>
+                            <h4 class="card-title reviewAuthor"><a class="userLink" href="/user/<%=review.author._id%>"><%= review.author.username %></a></h4>
                         <% if (currentUser && review.author.equals(currentUser._id)) { %>
                             <form action="/concerts/<%=concert._id%>/reviews/<%=review._id%>?_method=DELETE" method="post">
                                 <button class="btn btn-sm btnIcon">
@@ -149,7 +154,6 @@
                         <div class="relatedConcertDetailsContainer">
                             <p><%= c.title %></p>
                             <p><%= c.author.username %></p>
-                            <p><span>$<%= c.price %></span></p>
                             <p><span><%= c.location %></span></p>
                         </div>
                     </div>
@@ -176,22 +180,34 @@
         let userAuthorMatch = false;
     </script>
 <% } %>
-
 <% if (currentUser) { %>
     <script>
-        let author = "<%= concert.author.username %>";
+        let isLoggedIn = true;
+        let concertId = "<%= concert._id %>";
+        let user = "<%= concert.author.username %>";
         let userId = "<%= currentUser._id %>";
         let userName = "<%= currentUser.username %>";
         let currentUser = "<%-currentUser.username%>";
         let userImage = "<%-currentUser.image%>";
         let following;
+        let attending;
         <% if (concert.author.followers.some(e => e._id == currentUser.id)) { %>
             following = true;
         <% } else { %>
             following = false;
         <% } %>
+        <% if (concert.attendees.some(e => e._id == currentUser.id)) { %>
+            attending = true;
+        <% } else { %>
+            attending = false;
+        <% } %>
     </script>
-<% } %>
+<% } else { %>
+    <script>
+        let following = false;
+        let isLoggedIn = false;
+    </script>
+<%}%>
 <script>let authorId = "<%= concert.author._id %>";</script>
 
 <script src="/js/detailsPage.js"></script>
