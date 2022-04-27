@@ -16,9 +16,14 @@ const UserSchema = new Schema({
         type:Array,
         refPath: 'user',
     },
+    attending: {
+        type:Array,
+        refPath:'concert',
+    },
     image: {
         type:String,
         require:true,
+        default:'https://res.cloudinary.com/dlv7hwwa7/image/upload/v1650238267/MyConcerts/profile-pic_pgu8zl.jpg',
     }
 });
 

@@ -13,7 +13,6 @@ function returnConcertRating(rating) {
     
     document.querySelector('#ratingSection > a').prepend(returnRating);
 };
-
 async function followUser(e) {
     e.stopPropagation();
     let result = await fetch('/follow', {
@@ -27,7 +26,6 @@ async function followUser(e) {
         })
     });
     updateFollowStatus(true, true);
-    addFollower();
 };
 async function unFollowUser(e) {
     e.stopPropagation();
@@ -42,9 +40,7 @@ async function unFollowUser(e) {
         })
     });
     updateFollowStatus(false, true);
-    removeFollower();
 };
-
 /**
  * 
  * @param {bool} isFollowing - is user following the concert author
@@ -76,22 +72,85 @@ function updateFollowStatus(isFollowing, afterPageLoaded = false) {
         btnFollow.addEventListener('click', followUser);
     }
 }
-
 function hideFollowButtons() {
     let btnFollow = document.getElementById('follow');
     let btnUnfollow = document.getElementById('unfollow');
     btnFollow.classList.toggle('hide');
     btnUnfollow.classList.toggle('hide');
 }
-
-function addFollower() {
-    if (document.querySelector('.followersContainer > p') != null) {
-        document.querySelector('.followersContainer > p').remove();
+async function attendConcert(e) {
+    e.stopPropagation();
+    let result = await fetch(`/concerts/${concertId}/attend`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            myId: userId,
+        })
+    });
+    updateAttendStatus(true, true);
+    addAttendee();
+};
+async function unattendConcert(e) {
+    e.stopPropagation();
+    let result = await fetch(`/concerts/${concertId}/attend`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            myId: userId,
+        })
+    });
+    updateAttendStatus(false, true);
+    removeAttendee();
+};
+/**
+ * 
+ * @param {bool} isAttending - is user attending the concert
+ * @param {bool} afterPageLoad - Altering visibility of buttons after page already loaded
+ */
+ function updateAttendStatus(isAttending, afterPageLoaded = false) {
+    let btnAttend = document.getElementById('attend');
+    let btnUnattend = document.getElementById('unattend');
+    if (isAttending) {
+        if (afterPageLoaded) {
+            btnAttend.removeEventListener('click', attendConcert);
+            btnAttend.classList.toggle('hide');
+            btnUnattend.classList.toggle('hide');
+        }
+        else {
+            btnAttend.classList.toggle('hide');
+        }
+        btnUnattend.addEventListener('click', unattendConcert);
+    }
+    else {
+        if (afterPageLoaded) {
+            btnUnattend.removeEventListener('click', unattendConcert);
+            btnUnattend.classList.toggle('hide');
+            btnAttend.classList.toggle('hide');
+        }
+        else {
+            btnUnattend.classList.toggle('hide');
+        }
+        btnAttend.addEventListener('click', attendConcert);
+    }
+}
+function hideAttendButtons() {
+    let btnAttend = document.getElementById('attend');
+    let btnUnattend = document.getElementById('unattend');
+    btnAttend.classList.toggle('hide');
+    btnUnattend.classList.toggle('hide');
+}
+function addAttendee() {
+    if (document.querySelector('.attendeesContainer > p') != null) {
+        document.querySelector('.attendeesContainer > p').remove();
     }
 
-    let followerTag = document.createElement('div');
-    followerTag.classList.toggle('follower');
-    followerTag.setAttribute('id', currentUser);
+    let attendeeTag = document.createElement('div');
+    attendeeTag.classList.toggle('attendee');
+    attendeeTag.setAttribute('id', currentUser);
 
     let imageTag = document.createElement('div');
     imageTag.classList.toggle('profileImage');
@@ -100,19 +159,18 @@ function addFollower() {
     let userTag = document.createElement('p');
     userTag.textContent = currentUser;
 
-    followerTag.appendChild(imageTag);
-    followerTag.appendChild(userTag);
+    attendeeTag.appendChild(imageTag);
+    attendeeTag.appendChild(userTag);
     
-    document.querySelector('.followersContainer').appendChild(followerTag);
+    document.querySelector('.attendeesContainer').appendChild(attendeeTag);
     
 }
-
-function removeFollower() {
-    if (document.querySelector('.followersContainer').childElementCount === 1) {
+function removeAttendee() {
+    if (document.querySelector('.attendeesContainer').childElementCount === 1) {
         let noUsers = document.createElement('p');
-        noUsers.textContent = author + " has no followers yet";
+        noUsers.textContent = "No one is going yet";
         document.getElementById(currentUser).remove();
-        document.querySelector('.followersContainer').appendChild(noUsers);
+        document.querySelector('.attendeesContainer').appendChild(noUsers);
     }
     else {
         document.getElementById(currentUser).remove();
@@ -120,9 +178,18 @@ function removeFollower() {
     
 }
 
-if (!userAuthorMatch) {
+if (!userAuthorMatch && isLoggedIn) {
     updateFollowStatus(following);
+        if (attending) {
+            updateAttendStatus(true);
+        }
+        else {
+            updateAttendStatus(false);
+        }
 }
 else {
-    hideFollowButtons();
+    if (isLoggedIn) {
+        hideFollowButtons();
+        hideAttendButtons();
+    }
 }

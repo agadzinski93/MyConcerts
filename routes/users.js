@@ -7,6 +7,8 @@ const userAuthCont = require("../controllers/userAuth");
 const {isLoggedIn} = require("../middleware");
 const catchAsync = require("../utilities/catchAsync");
 
+router.get('/user/:id', user.renderUser);
+
 router.route('/register')
     .get(userAuthCont.renderRegistration)
     .post(catchAsync(userAuthCont.registerUser));

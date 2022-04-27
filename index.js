@@ -32,6 +32,10 @@ const routeReviews = require("./routes/reviews");
 const routeUsers = require("./routes/users");
 
 let mongoDBUrl = process.env.MONGODB_URI;
+if (process.env.NODE_ENV == "Development") {
+    mongoDBUrl = "mongodb://localhost:27017/concert-finder?readPreference=primary&appname=MongoDB%20Compass&ssl=false";
+}
+
 
 mongoose.connect(mongoDBUrl,{
     useNewUrlParser:true,
@@ -76,6 +80,7 @@ const sessionConfig = {
         expires: Date.now() + (1000 * 60 *60 * 24 * 7),
         maxAge: 1000 * 60 *60 * 24 * 7,
         httpOnly: false,
+        sameSite:'strict',
     }
 }
 app.use(session(sessionConfig));

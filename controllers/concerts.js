@@ -1,3 +1,4 @@
+const ObjectId = require('mongoose').Types.ObjectId;
 const Concert = require("../models/concert");
 const User = require("../models/user");
 const ExpressError = require("../utilities/ExpressError");
@@ -15,7 +16,7 @@ module.exports = {
             dbSearchQuery = {},
             searchQuery,
             numPerPage = (req.query.num >= 0) ? parseInt(req.query.num) || 10 : 10,
-            currentPage = parseInt(req.query.page) || 1,
+            currentPage = (Number.isInteger(parseInt(req.query.page)) && (parseInt(req.query.page)) > 0) ? parseInt(req.query.page) : 1,
             numOfPages,
             docsToSkip,
             sortOption = {},
@@ -58,7 +59,7 @@ module.exports = {
        
         count = await Concert.find(dbSearchQuery).countDocuments();
         numOfPages = Math.ceil(count / numPerPage);
-        docsToSkip = numPerPage * (req.query.page - 1);
+        docsToSkip = numPerPage * (currentPage - 1);
         concerts = await Concert.find(dbSearchQuery, '', {sort: sortOption, skip: docsToSkip, limit: numPerPage});
         res.render("concerts/index",{concerts, searchQuery, 
             textQuery: req.query.search, numPerPage, currentPage, numOfPages, sortUrl});
@@ -99,6 +100,7 @@ module.exports = {
             //Retrieve concert data
             let concert = await Concert.findById(req.params.id)
             .populate({path: 'reviews', populate: {path: 'author'}})
+            .populate({path:'attendees', select:'username image'})
             .populate(
                 {path:'author', 
                 populate:[
@@ -209,5 +211,23 @@ module.exports = {
         await Concert.findByIdAndDelete(req.params.id);
         req.flash('successDeleted', 'Concert Deleted!');
         res.redirect('/concerts');
+    },
+    async attendConcert(req, res) {
+        let userID = req.body.myId;
+        let concertID = req.params.id;
+        const concertResult = await Concert.updateOne({_id:{$eq:concertID}}, {$addToSet:{attendees:ObjectId(userID)}});
+        const userResult = await User.updateOne({_id:{$eq:userID}}, {$addToSet:{attending:ObjectId(concertID)}});
+
+        const result = {concertResult,userResult};
+        res.json(result);
+    },
+    async unattendConcert(req, res) {
+        let userID = req.body.myId;
+        let concertID = req.params.id;
+        const concertResult = await Concert.updateOne({_id:{$eq:concertID}}, {$pull:{attendees:ObjectId(userID)}});
+        const userResult = await User.updateOne({_id:{$eq:userID}}, {$pull:{attending:ObjectId(concertID)}});
+
+        const result = {concertResult,userResult};
+        res.json(result);
     }
 }

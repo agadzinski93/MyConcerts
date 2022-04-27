@@ -32,6 +32,10 @@ const ConcertSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'user'
     },
+    attendees: {
+        type: Schema.Types.Array,
+        ref: 'user',
+    },
     reviews: [{
         type: mongoose.SchemaTypes.ObjectId,
         ref:'review'
