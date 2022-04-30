@@ -6,7 +6,11 @@
         <div class="card cardLeft">
             <div class="cardImageDescriptionContainer">
                 <div class="cardImageContainer">
+                    <% if (concert.image.filename) { %>
                     <img src="<%= concert.image.url %>" class="card-img-top" alt="">
+                    <%}else{%>
+                        <div class="noImage"><p>No Image Preview</p></div>
+                    <%}%>
                 </div>
                 <div class="cardDescription">
                     <div class="card-body">
@@ -56,12 +60,14 @@
                     <img class="icon" src="/assets/svg/editBlack.png" alt="edit">
                     <span>Edit Image</span>
                 </a>
-                <form class="" action="/concerts/<%= concert._id %>/edit?_method=DELETE" method="POST">
+                <%if (concert.image.filename) {%>
+                <form action="/concerts/<%= concert._id %>/edit?_method=DELETE" method="POST">
                     <button class="btn btn-danger">
                         <img class="icon" src="/assets/svg/trashBlack.svg" alt="delete" />
                         <span>Delete Image</span>
                     </button>
                 </form>
+                <%}%>
             </div>
             <% } %>
         </div>

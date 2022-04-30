@@ -2,7 +2,9 @@
 <div class="row editContainer">
     <h1 class="text-center">Edit Photo</h1>
     <div class="col-6 offset-3">
+        <%if (concert.image) {%>
         <img src="<%= concert.image.thumbnail %>" class="card-img-top img-thumbnail mt-3" alt="">
+        <%}%>
         <form enctype="multipart/form-data" action="/concerts/<%= concert._id %>?_method=PATCH" method="POST" novalidate>
             <div class="form-file mt-3">
                 <label class="form-label" for="imageUploader">Choose Image</label>
