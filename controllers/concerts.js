@@ -180,10 +180,11 @@ module.exports = {
         }
     },
     async editConcertPhoto(req,res) {
-        //Find current concert, delete existing image
+        //Find current concert, delete existing image unless default image
         let concert = await Concert.findById(req.params.id);
-        if (concert.image.filename) 
+        if (concert.image.filename && concert.image.filename != process.env.DEFAULT_CONCERT_IMG) {
             await cloudinary.uploader.destroy(concert.image.filename);
+        } 
 
         let imageNew = {url: req.file.path, filename: req.file.filename};
         await Concert.findByIdAndUpdate(req.params.id,{$set: {image: imageNew}});
@@ -193,7 +194,9 @@ module.exports = {
     async deleteConcertPhoto(req,res) {
         let concert = await Concert.findById(req.params.id);
         if (concert.image.filename) {
-            await cloudinary.uploader.destroy(concert.image.filename);
+            if (concert.image.filename != process.env.DEFAULT_CONCERT_IMG) {
+                await cloudinary.uploader.destroy(concert.image.filename);
+            }
             concert.image.filename = "";
             concert.image.url = "";
             await concert.save();
@@ -205,9 +208,9 @@ module.exports = {
     },
     async deleteConcert(req,res) {
         let concert = await Concert.findById(req.params.id);
-        if (concert.image.filename) 
+        if (concert.image.filename && concert.image.filename != process.env.DEFAULT_CONCERT_IMG) {
             await cloudinary.uploader.destroy(concert.image.filename);
-
+        }
         await Concert.findByIdAndDelete(req.params.id);
         req.flash('successDeleted', 'Concert Deleted!');
         res.redirect('/concerts');

@@ -523,6 +523,15 @@ a.white {
     border-radius:0.25rem;
     border:none;
 }
+.noImage {
+    display:flex;
+    justify-content:center;
+    align-items: center;
+    height:100%;
+    color:#FFF;
+    font-style:italic;
+    text-align:center;
+}
 .reviewAuthorIconContainer {
     display:flex;
 }
