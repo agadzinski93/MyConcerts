@@ -6,7 +6,7 @@ const cors = require('cors');
 const mongoose = require("mongoose");
 const mongoSanitize = require("express-mongo-sanitize");
 const MongoStore = require("connect-mongo");
-const engine = require("ejs-mate");
+const expressLayouts = require("express-ejs-layouts");
 const session = require("express-session");
 //const helmet = require("helmet");
 const flash = require("connect-flash");
@@ -51,7 +51,8 @@ db.once("open",()=>{console.log("Connected")});
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname,"views"));
 
-app.engine("ejs",engine);
+app.use(expressLayouts);
+app.set('layout','layout/boilerplate');
 
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
@@ -102,7 +103,7 @@ app.use((req,res,next) => {
 });
 
 app.get("/",(req,res)=>{
-    res.render("home");
+    res.render("home",{layout:false});
 });
 
 app.use("/concerts", routeConcert);
