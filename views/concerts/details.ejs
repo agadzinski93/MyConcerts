@@ -6,7 +6,7 @@
             <div class="cardImageDescriptionContainer">
                 <div class="cardImageContainer">
                     <% if (concert.image.filename) { %>
-                    <img src="<%= concert.image.url %>" class="card-img-top" alt="">
+                        <div class="cardImage" style="background-image:url('<%=concert.image.url%>');"></div>
                     <%}else{%>
                         <div class="noImage"><p>No Image Preview</p></div>
                     <%}%>
@@ -44,13 +44,13 @@
                                 <button id="unfollow" class="unfollow">Unfollow</button>
                             <% } %></h6>
                         <p class="card-text"><%= concert.description %></p>
+                        <div class="concertPriceLocationContainer">
+                            <p class="concertPrice">$<%= concert.price %>/person</p>
+                            <p class="concertLocation text-muted"><%= concert.location %></p>  
+                        </div>
                     </div>
                 </div>
                 
-            </div>
-            <div class="concertPriceLocationContainer">
-                <p class="concertPrice">$<%= concert.price %>/person</p>
-            <p class="concertLocation text-muted"><%= concert.location %></p>  
             </div>          
             
             <% if (currentUser && concert.author.equals(currentUser._id)) { %>

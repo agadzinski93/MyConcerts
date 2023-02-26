@@ -80,7 +80,6 @@
                 <a href="/concerts/<%= concerts[i]._id %>">
                     <div class="concertContainerContent">
                     <% if (concerts[i].image.url) { %>
-                        <!--<img src="<%= concerts[i].image.url %>" alt="" class="img-fluid">-->
                         <div class="concertImage" style="background-image:url('<%= concerts[i].image.url %>')"></div>
                     <% } else { %>
                         <img src="<%= concerts[i].image %>" alt="" class="img-fluid">
@@ -88,9 +87,11 @@
                     
                         <div class="concertBody">
                             <div class="card-body">
-                                <h5 class="card-title concertTitle"><%= concerts[i].title %></h5>
+                                <div class="concertTitlePriceContainer">
+                                    <h5 class="card-title concertTitlePrice"><%= concerts[i].title %> <span style="float:right">&dollar;<%=concerts[i].price%></span></h5>
+                                </div>
                                 <p class="card-text concertDescription"><%= concerts[i].description %></p>
-                                <p class="card-text text-muted concertLocation"><%= concerts[i].location %></p>
+                                <p class="card-text concertLocation text-muted"><%= concerts[i].location %></p>
                             </div>
                         </div>
                     </div>
