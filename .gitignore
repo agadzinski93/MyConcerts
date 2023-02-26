@@ -1,5 +1,6 @@
 .env
 /assets
+/node_modules
 Procfile
 
 # Compiled source #
