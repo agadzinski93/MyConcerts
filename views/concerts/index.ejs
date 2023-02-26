@@ -1,23 +1,23 @@
-<% layout("layout/concertViewer") %>
+<div class="concertIndexContainer">
 
-<div id="map" class="clusterMap"></div>
 <div class="searchFormContainer">
     <form action="/concerts" method="GET" content-type="application/x-www-form-urlencoded" >
-        <input type="text" name="search" placeholder="Enter title or location" value="<% if (textQuery) {%><%=textQuery%><% }%>">
+        <input type="text" name="search" placeholder="Enter title or location (e.g. &quot;California&quot; or &quot;Party&quot;)" value="<% if (textQuery) {%><%=textQuery%><% }%>">
         <select name="num" id="">
-            <option value="1">1</option>
-            <option value="5">5</option>
-            <option value="10" selected>10</option>
-            <option value="30">30</option>
-            <option value="100">100</option>
+            <option value="1">1 per page</option>
+            <option value="5">5 per page</option>
+            <option value="10" selected>10 per page</option>
+            <option value="30">30 per page</option>
+            <option value="100">100 per page</option>
         </select>
         <select name="sort" id="">
-            <option value="none">None</option>
+            <option value="none">Sort</option>
             <option value="titleA">Title [A...Z]</option>
             <option value="titleZ">Title [Z...A]</option>
             <option value="priceHigh">Price [Highest]</option>
             <option value="priceLow">Price [Lowest]</option>
         </select>
+        <input type="submit" value="&telrec;" ></input>
     </form>
 </div>
 <% if (numOfPages > 1) { %>
@@ -29,22 +29,22 @@
                         <a href="<%=searchQuery%>&num=<%=numPerPage%><%=sortUrl%>&page=<%=i+1%>"><%= i+1 %></a> 
                     <% } 
                     else { %>
-                        ...<a href="<%=searchQuery%>&num=<%=numPerPage%><%=sortUrl%>&page=<%=numOfPages%>"><%=numOfPages%></a> 
+                        <span class="ellipses">...</span><a href="<%=searchQuery%>&num=<%=numPerPage%><%=sortUrl%>&page=<%=numOfPages%>"><%=numOfPages%></a> 
                     <% }
                 }
             } 
             else if(currentPage >= numOfPages - 2) { %>
-                <a href="<%=searchQuery%>&num=<%=numPerPage%><%=sortUrl%>&page=1">1</a>...
+                <a href="<%=searchQuery%>&num=<%=numPerPage%><%=sortUrl%>&page=1">1</a><span class="ellipses">...</span>
                 <% for (let i = numOfPages - 4; i <= numOfPages; i++) {%>
                     <a href="<%=searchQuery%>&num=<%=numPerPage%><%=sortUrl%>&page=<%=i%>"><%= i %></a> 
                 <% } 
             }
             else { %>
-                <a href="<%=searchQuery%>&num=<%=numPerPage%><%=sortUrl%>&page=1">1</a>...
+                <a href="<%=searchQuery%>&num=<%=numPerPage%><%=sortUrl%>&page=1">1</a><span class="ellipses">...</span>
                 <% for (let i = currentPage - 2; i <= currentPage + 2; i++) {%>
                     <a href="<%=searchQuery%>&num=<%=numPerPage%><%=sortUrl%>&page=<%=i%>"><%= i %></a>
                 <% } %>
-                ...<a href="<%=searchQuery%>&num=<%=numPerPage%><%=sortUrl%>&page=<%=numOfPages%>"><%=numOfPages%></a>
+                <span class="ellipses">...</span><a href="<%=searchQuery%>&num=<%=numPerPage%><%=sortUrl%>&page=<%=numOfPages%>"><%=numOfPages%></a>
             <% }  
         } 
         else if (currentPage <= 3 || numOfPages <= 5) {
@@ -53,48 +53,59 @@
                     <a href="?num=<%=numPerPage%><%=sortUrl%>&page=<%=i+1%>"><%= i+1 %></a> 
                 <% } 
                 else { %>
-                    ...<a href="?num=<%=numPerPage%><%=sortUrl%>&page=<%=numOfPages%>"><%=numOfPages%></a> 
+                    <span class="ellipses">...</span><a href="?num=<%=numPerPage%><%=sortUrl%>&page=<%=numOfPages%>"><%=numOfPages%></a> 
                 <% }
             }
         } 
         else if(currentPage >= numOfPages - 2) { %>
-            <a href="?num=<%=numPerPage%><%=sortUrl%>&page=1">1</a>...
+            <a href="?num=<%=numPerPage%><%=sortUrl%>&page=1">1</a><span class="ellipses">...</span>
             <% for (let i = numOfPages - 4; i <= numOfPages; i++) {%>
                 <a href="?num=<%=numPerPage%><%=sortUrl%>&page=<%=i%>"><%= i %></a> 
             <% } 
         }
         else { %>
-            <a href="?num=<%=numPerPage%><%=sortUrl%>&page=1">1</a>...
+            <a href="?num=<%=numPerPage%><%=sortUrl%>&page=1">1</a><span class="ellipses">...</span>
             <% for (let i = currentPage - 2; i <= currentPage + 2; i++) {%>
                 <a href="?num=<%=numPerPage%><%=sortUrl%>&page=<%=i%>"><%= i %></a>
             <% } %>
-            ...<a href="?num=<%=numPerPage%><%=sortUrl%>&page=<%=numOfPages%>"><%=numOfPages%></a>
+            <span class="ellipses">...</span><a href="?num=<%=numPerPage%><%=sortUrl%>&page=<%=numOfPages%>"><%=numOfPages%></a>
         <% } %>
     </div>
 <%}%>
 
-<% for (let i = 0; i < numPerPage && i < numPerPage && concerts[i]; i++) { %>
-    <div class="concertContainer">
-        <a href="/concerts/<%= concerts[i]._id %>">
-            <div class="concertContainerContent">
-            <% if (concerts[i].image.url) { %>
-                <!--<img src="<%= concerts[i].image.url %>" alt="" class="img-fluid">-->
-                <div class="concertImage" style="background-image:url('<%= concerts[i].image.url %>')"></div>
-            <% } else { %>
-                <img src="<%= concerts[i].image %>" alt="" class="img-fluid">
-            <% } %>
-            
-                <div class="concertBody">
-                    <div class="card-body">
-                        <h5 class="card-title"><%= concerts[i].title %></h5>
-                        <p class="card-text concertDescription"><%= concerts[i].description %></p>
-                        <p class="card-text"><small class="text-muted"><%= concerts[i].location %></p></small>
+<div class="concertSection">
+    <div class="concertSectionLeft">
+        <% for (let i = 0; i < numPerPage && i < numPerPage && concerts[i]; i++) { %>
+            <div class="concertContainer">
+                <a href="/concerts/<%= concerts[i]._id %>">
+                    <div class="concertContainerContent">
+                    <% if (concerts[i].image.url) { %>
+                        <div class="concertImage" style="background-image:url('<%= concerts[i].image.url %>')"></div>
+                    <% } else { %>
+                        <img src="<%= concerts[i].image %>" alt="" class="img-fluid">
+                    <% } %>
+                    
+                        <div class="concertBody">
+                            <div class="card-body">
+                                <div class="concertTitlePriceContainer">
+                                    <h5 class="card-title concertTitlePrice"><%= concerts[i].title %> <span style="float:right">&dollar;<%=concerts[i].price%></span></h5>
+                                </div>
+                                <p class="card-text concertDescription"><%= concerts[i].description %></p>
+                                <p class="card-text concertLocation text-muted"><%= concerts[i].location %></p>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
-        </a>
+        <% } %>
     </div>
-<% } %>
+    
+    <div class="concertSectionRight">
+        <div id="map" class="clusterMap"></div>
+    </div>
+</div>
+</div>
+
 
 <script>
     const mapBoxToken = '<%= process.env.MAPBOX_TOKEN %>';

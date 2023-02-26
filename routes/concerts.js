@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router({caseSensitive:false});
 const catchAsync = require("../utilities/catchAsync");
-const Concert = require("../models/concert");
 const concertCont = require("../controllers/concerts");
 const {
     isLoggedIn,
@@ -9,7 +8,8 @@ const {
     validateConcert} = require("../middleware");
 const multer = require('multer');
 const {storage} = require('../cloudinary'); //Auto looks for index.js
-const upload = multer({storage});
+const filter = require("../utilities/validateImageFile");
+const upload = multer({storage, fileFilter: filter, limits: {fileSize: 1000000}});
 
 router.route("/")
     .get(catchAsync(concertCont.index))
@@ -28,5 +28,9 @@ router.route("/:id/edit")
     .delete(isLoggedIn, isAuthor, catchAsync(concertCont.deleteConcertPhoto));
 
 router.get("/:id/editPhoto", isLoggedIn, isAuthor, catchAsync(concertCont.renderEditConcertPhoto));
+
+router.route("/:id/attend")
+    .post(isLoggedIn, catchAsync(concertCont.attendConcert))
+    .delete(isLoggedIn, catchAsync(concertCont.unattendConcert));
 
 module.exports = router;

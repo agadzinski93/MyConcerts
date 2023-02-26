@@ -1,0 +1,97 @@
+<div class="userPageContainer">
+    <%- include("../partials/navbar") %>
+    <div class="userContainer">
+        <div class="userLeftContainer">
+            <div class="userHeaderContainer">
+                <div class="userImageContainer">
+                    <img src="<%=user.image%>" alt="">
+                </div>
+                <div class="userInfo">
+                    <h1><%=user.username%>
+                        <% if (currentUser) { %> 
+                            <button id="follow" class="follow">Follow</button>
+                            <button id="unfollow" class="unfollow">Unfollow</button>
+                        <% } %>
+                    </h1>
+                </div>
+            </div>
+            <div class="followersSection">
+                <h3>Followers</h3>
+                <div class="followersContainer">
+                    <% if (user.followers.length > 0) { %>
+                    <% for (let i = 0; i < 7 && i < user.followers.length; i++) { %>
+                        <div class="follower" id="<% if (currentUser) { %><%=user.followers[i].username%><%}%>">
+                            <div class="profileImage" style="background-image: url('<%= user.followers[i].image %>');"></div>
+                            <p><a href="/user/<%=user.followers[i]._id%>"><%= user.followers[i].username %></a></p>
+                        </div>
+                    <% } %>
+                    <% } else { %>
+                        <p><%= user.username %> has no followers yet</p>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        <div class="userRightContainer">
+            <div class="userConcertList">
+                <% if (concerts.length > 0) { %>
+                    <% for (let i = 0; i < concerts.length; i++) { %>
+                        <div class="concertContainer">
+                            <a href="/concerts/<%= concerts[i]._id %>">
+                                <div class="concertContainerContent">
+                                <% if (concerts[i].image.url) { %>
+                                    <div class="concertImage" style="background-image:url('<%= concerts[i].image.url %>')"></div>
+                                <% } else { %>
+                                    <img src="<%= concerts[i].image %>" alt="" class="img-fluid">
+                                <% } %>
+                                
+                                    <div class="concertBody">
+                                        <div class="card-body">
+                                            <h5 class="card-title concertTitle"><%= concerts[i].title %></h5>
+                                            <p class="card-text concertDescription"><%= concerts[i].description %></p>
+                                            <p class="card-text text-muted concertLocation"><%= concerts[i].location %></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    <% } %>
+                <% } else { %>
+                    <p class="noConcerts"><%=user.username%> hasn't created any concerts</p>
+                <% } %>
+            </div>
+        </div>
+    </div>
+    <%- include("../partials/footer") %>
+</div>
+<% if (currentUser && user._id.equals(currentUser._id)) { %>
+    <script>
+        let userAuthorMatch = true;
+    </script>
+<% } else { %>
+    <script>
+        let userAuthorMatch = false;
+    </script>
+<% } %>
+<% if (currentUser) { %>
+    <script>
+        let isLoggedIn = true;
+        let author = "<%= user.username %>";
+        let userId = "<%= currentUser._id %>";
+        let userName = "<%= currentUser.username %>";
+        let currentUser = "<%-currentUser.username%>";
+        let userImage = "<%-currentUser.image%>";
+        let following;
+        <% if (user.followers.some(e => e._id == currentUser.id)) { %>
+            following = true;
+        <% } else { %>
+            following = false;
+        <% } %>
+    </script>
+<% } else { %>
+    <script>
+        let following = false;
+        let isLoggedIn = false;
+    </script>
+<%}%>
+<script>let authorId = "<%= user._id %>";</script>
+<script src="/js/userPage.js"></script>

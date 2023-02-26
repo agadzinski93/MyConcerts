@@ -12,7 +12,30 @@
     margin:1rem;
     color:#fff;
 }
-
+.hide {
+    display:none;
+}
+a.userLink {
+    text-decoration:none;
+    color:#B3B2B2;
+}
+a.white {
+    color:#FFF;
+}
+.icon + span {
+    display: none;
+    position: absolute;
+    border: solid 1px black;
+    color:#000;
+    background-color: #fff4cf;
+    font-size: 0.75rem;
+    padding: 0.25rem;
+    min-width:max-content;
+    z-index:1;
+  }
+  .icon:hover + span {
+    display: block;
+  }
 .userLogin {
     display:flex;
     background-color:rgba(32, 32, 32, 0.3);
@@ -20,31 +43,26 @@
     height:45rem;
     margin:5rem auto 0rem;
 }
-
 .loginBanner {
     flex:1;
     background-image:url('/assets/loginBanner.webp');
     background-size:cover;
 }
-
 .loginFormContainer {
     flex:1;
     color:#B3B4B4;
 }
-
 .loginHeader {
     font-size:2rem;
     text-align:center;
     text-transform:uppercase;
     margin-top:5rem;
 }
-
 .loginForm {
     width:80%;
     text-align:center;
     margin:6rem auto 0rem;
 }
-
 .btnLogin {
     color:white;
     text-transform: uppercase;;
@@ -53,7 +71,6 @@
     padding:1rem 2rem;
     margin-top:3rem;
 }
-
 .userRegister {
     display:flex;
     background-color:rgba(32, 32, 32, 0.3);
@@ -61,20 +78,17 @@
     height:45rem;
     margin:5rem auto 0rem;
 }
-
 .registerBanner {
     flex:1;
     background-image:url('/assets/registerBanner.webp');
     background-size:cover;
 }
-
 .registerHeader {
     font-size:2rem;
     text-align:center;
     text-transform:uppercase;
     margin-top:5rem;
 }
-
 .btnRegister {
     color:white;
     text-transform: uppercase;;
@@ -83,49 +97,83 @@
     padding:1rem 2rem;
     margin-top:2rem;
 }
-
 .clusterMap {
     width:100%;
-    height:25rem;
+    height:100%;
 }
 .map {
     width:100%;
-    height:300px;
+    height:20rem;
+}
+.concertIndexContainer {
+    display:flex;
+    flex-flow:column;
+}
+.concertSection {
+    display:flex;
+}
+.concertSectionLeft {
+    width:50%;
+    height:75vh;
+    min-height: 40rem;
+    overflow: auto;
+    overflow-x: hidden;
+}
+.concertSectionRight {
+    width:50%;
 }
 .searchFormContainer {
-    text-align:center;
+    text-align:left;
+    width:50%;
 }
 .searchFormContainer input[type="text"] {
-    width:500px;
+    width:50%;
     padding:0.5rem 0 0.5rem 0.5rem;
-    margin:0.5rem 0;
+    margin:0.5rem 0 0.5rem 3%;
     border-radius:0.5rem;
+}
+.searchFormContainer select {
+    width:17%;
+    height:40px;
+}
+.searchFormContainer input[type="submit"] {
+    width:40px;
+    height:40px;
+    color:#FFF;
+    background-color:#3943C1;
+    border:none;
+    font-size:1.75rem;
+    line-height:1.5rem;
+    position:relative;
+    top:0.25rem;
 }
 .pageListContainer {
     display:flex;
+    width:50%;
     justify-content:center;
     margin-bottom:0.5rem;
 }
 .pageListContainer > a {
-    color:#B8B7B7;
+    color:#FFF;
     text-decoration:none;
-    background-color:#2C2C2C;
+    background-color:#3943C1;
     width:1.75rem;
     text-align:center;
     padding:0.25rem 0rem;
     margin:0rem 0.5rem;
 }
+.ellipses {
+    color:#FFF;
+}
 .concertContainer {
-    margin:0 0 1rem 10%;
-    width:80%;
+    width:100%;
 }
 .concertContainer > a {
-    color:white;
     text-decoration:none;
 }
 .concertContainerContent {
     display:flex;
-    height:10vw;
+    height:200px;
 }
 .concertImage {
     flex:1;
@@ -134,7 +182,476 @@
 }
 .concertBody {
     flex:3;
+    color:#FFF;
     background-color:rgba(0,0,0,0.5);
+}
+.detailsContainer {
+    width:80%;
+    margin:0 auto;
+    display:flex;
+    align-items:stretch;
+}
+.detailsLeftContainer {
+    width:65%;
+}
+.cardImageDescriptionContainer {
+    display:flex;
+    padding:0.5rem;
+}
+.cardImageContainer {
+    flex:1;
+}
+.cardImage {
+    width:100%;
+    height:20rem;
+    background-repeat:no-repeat;
+    background-position: center;
+    background-size:contain;
+}
+.follow,
+.attend {
+    border:none;
+    background-color:#239488;
+    color:#FFF;
+    text-transform:uppercase;
+    font-size:0.75rem;
+    padding:0.25rem 0.5rem;
+    vertical-align: middle;
+}
+.unfollow,
+.unattend {
+    border:none;
+    background-color:#E04D76;
+    color:#FFF;
+    text-transform:uppercase;
+    font-size:0.75rem;
+    padding:0.25rem 0.5rem;
+    vertical-align: middle;
+}
+.ratingSection > a + span {
+    display:none;
+}
+.ratingSection > a:hover + span {
+    display:block;
+    position: absolute;
+    border: solid 1px black;
+    color:#000;
+    background-color: #fff4cf;
+    font-size: 0.75rem;
+    padding: 0.25rem;
+    min-width:max-content;
+    z-index:1;
+}
+.ratingSection > a {
+    color:orange;
+    text-decoration: none;
+}
+.ratingSection:hover > span + span {
+    display: block;
+}
+.cardDescription {
+    flex:1;
+}
+.cardTitleIconContainer {
+    display:flex;
+}
+.cardTitleIconContainer > h4 {
+    flex:2;
+}
+.cardTitleIconContainer > div {
+    flex:1;
+    text-align:right;
+}
+.concertPriceLocationContainer {
+    display:flex;
+    border-top:solid 1px #FFFFFF;
+    padding:0.5rem 0 0.5rem;
+}
+.concertPrice {
+    flex:1;
+}
+.concertLocation {
+    flex:1;
+    text-align: right;
+}
+.cardLeft {
+    border-radius:none;
+    border:none;
+    color:#FFF;
+    background-color:#3949A0;
+}
+.cardLeft > p {
+    display:inline;
+    background-color:#3949A0;
+}
+.detailsRightContainer {
+    width:35%;
+    
+}
+.relatedSearchTitleContainer {
+    color:#FFF;
+    background-color:#3949A0;
+    text-align: center;
+    font-size: 1.25rem;
+    padding:0.5rem 0;
+    margin:1rem 0;
+}
+.relatedSearchContainer {
+    color:#FFF;
+    background-color:#3949A0;
+    max-height:35rem;
+    overflow:auto;
+}
+.relatedSearchContainer > a {
+    text-decoration: none;
+    color:#FFF;
+}
+.relatedConcertContainer {
+    display:flex;
+    width:100%;
+    height:7rem;
+}
+.relatedConcertImage {
+    height:100%;
+    flex:1;
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-position: center;
+}
+.relatedConcertDetailsContainer {
+    height:100%;
+    flex:3;
+    flex-wrap:wrap;
+    padding:0 0.5rem 0 0.5rem;
+}
+.relatedConcertDetailsContainer > p:not(:first-child) {
+    font-size:0.875rem;
+}
+.relatedConcertDetailsContainer > p:first-child,
+.relatedConcertDetailsContainer > p:nth-child(2) {
+    margin:0;
+}
+.relatedConcertDetailsContainer > p:nth-child(2) {
+    color:#B3B2B2;
+}
+.relatedConcertDetailsContainer > p:last-child {
+    margin-top:1rem;
+    text-align:right;
+}
+.attendeesSection {
+    color:#FFF;
+    background-color:#3949A0;
+    padding:0.5rem 1rem;
+    margin-top:1rem;
+}
+.attendeesSection > h3 {
+    font-size:1.25rem;
+    padding:0.5rem 0;
+}
+.attendeesContainer {
+    display:flex;
+    flex-wrap:wrap;
+    flex-flow:row;
+}
+.attendee {
+    text-align:center;
+    flex-basis:7rem;
+}
+.profileImage {
+    width:4rem;
+    height:4rem;
+    background-repeat: no-repeat;
+    background-size:cover;
+    border-radius:50%;
+    margin:0 auto;
+}
+.attendeesContainer > p {
+    text-align:center;
+    width:100%;
+    font-style:italic;
+}
+.reviewHeader {
+    color:#FFF;
+    background-color:#3949A0;
+    padding:0.25rem 0;
+    margin-top:1rem;
+    text-align:center;
+    font-size:1.5rem;
+}
+.leaveReviewTitle {
+    color:#FFF;
+    margin-top:1rem;
+}
+.reviewLabel {
+    color:#FFF;
+}
+.reviewTextBody {
+    color:#FFF;
+    background-color:#3949A0;
+}
+.reviewTextBody:focus {
+    color:#FFF;
+    background-color:#3949A0;
+}
+.btnPostContainer {
+    text-align:right;
+}
+.btnPost {
+    border:none;
+    border-radius:0;
+    color:#FFF;
+    background-color:#2497BC;
+    padding:0.5rem 1rem;
+}
+.reviewContainer {
+    border-radius:0;
+    color:#fff;
+    background-color:#3949A0;
+    margin-top:1rem;
+}
+.reviewAuthor {
+    color:#AAABAB;
+}
+.reviewRating {
+    height:1rem;
+}
+.noReviewsContainer {
+    color:#fff;
+    background-color:rgba(57, 73, 160, 0.7);
+    font-size:1.25rem;
+    text-align:center;
+    padding:1rem;
+    margin-top:1rem;
+}
+.noReviewsContainer > a {
+    color:#33D0FE;
+    text-decoration:none;
+}
+.newContainer {
+    width:50%;
+    margin:0 auto;
+    padding:1rem 0;
+    background-color:rgba(32, 32, 32, 0.3);
+}
+.newContainer h1 {
+    color:#FFF;
+}
+.newContainer label {
+    color:#FFF;
+}
+.newContainer input {
+    color:#FFF;
+    background-color:#3949A0;
+}
+.newContainer input:focus {
+    color:#FFF;
+    background-color:#3949A0;
+}
+.max-file-size {
+    color:#FFF;
+    text-align:right;
+}
+.newContainer textarea {
+    height:10rem;
+    color:#FFF;
+    background-color:#3949A0;
+}
+.newContainer textarea:focus {
+    color:#FFF;
+    background-color:#3949A0;
+}
+.addEditButtons {
+    display:flex;
+    flex-wrap:wrap;
+    margin:2rem 0;
+}
+.addEditButtons > div:first-child,
+.addEditButtons > div:last-child {
+    flex-basis:50%;
+    text-align:center;
+}
+.addEditButtons a {
+    text-decoration:none;
+}
+.addEditButtons button,
+.addEditButtons a > div {
+    width:11rem;
+    border:none;
+    border-radius:0;
+    color:#FFF;
+    background-color:#2497BC;
+    padding:1rem 2rem;
+    margin:0 auto;
+}
+.editContainer {
+    width:50%;
+    margin:0 auto;
+    padding:1rem 0;
+    background-color:rgba(32, 32, 32, 0.3);
+}
+.editContainer h1 {
+    color:#FFF;
+}
+.editContainer label {
+    color:#FFF;
+}
+.editContainer input {
+    color:#FFF;
+    background-color:#3949A0;
+}
+.editContainer input:focus {
+    color:#FFF;
+    background-color:#3949A0;
+}
+.editContainer textarea {
+    height:10rem;
+    color:#FFF;
+    background-color:#3949A0;
+}
+.editContainer textarea:focus {
+    color:#FFF;
+    background-color:#3949A0;
+}
+.detailsButtons {
+    display:flex;
+    position:absolute;
+}
+.detailsButtons > a {
+    margin:0 0.5rem;
+    padding:0.125rem 0.5rem 0.4rem;
+    color:#000;
+    text-decoration:none;
+    border-radius:0.25rem;
+}
+.detailsButtons button {
+    margin:0 0.5rem;
+    padding:0.25rem 0.5rem 0.4rem;
+    text-decoration:none;
+    border-radius:0.25rem;
+    border:none;
+}
+.noImage {
+    display:flex;
+    justify-content:center;
+    align-items: center;
+    height:100%;
+    color:#FFF;
+    font-style:italic;
+    text-align:center;
+}
+.reviewAuthorIconContainer {
+    display:flex;
+}
+.reviewAuthorIconContainer form  {
+    flex:1;
+    text-align:right;
+}
+.btnIcon {
+    background-color:transparent;
+    background-repeat: no-repeat;
+    border:none;
+    padding:0.25rem 0.25rem;
+    text-decoration: none;
+}
+.icon {
+    height:1.25rem;
+}
+.errorContainer {
+    margin:0 auto;
+    padding:1rem 0;
+    color:#FFF;
+    background-color:rgba(32, 32, 32, 0.3);
+    text-align:center;
+}
+.userPageContainer {
+    display:flex;
+    height:100vh;
+    flex-direction:column;
+}
+.userContainer {
+    display:flex;
+    flex-grow:1;
+    height:calc(100vh - 8rem);
+    min-height:40rem;
+}
+.userLeftContainer {
+    flex-basis:50%;
+}
+.userHeaderContainer {
+    display:flex;
+    flex-wrap:wrap;
+    width:90%;
+    height:max-content;
+    margin:0 5% 2rem 5%;;
+    background-color:#3949A0;
+}
+.userImageContainer {
+    flex-basis:25%;
+    text-align:center;
+    vertical-align: middle;
+}
+.userImageContainer > img {
+    border-radius:50%;
+    height:12rem;
+    max-height:50%;
+    margin-top:3.5rem;
+}
+.userInfo > h1 {
+    color:#FFF;
+    margin-top:1rem;
+    margin-left:1rem;
+    font-size:2rem;
+}
+.followersSection {
+    color:#FFF;
+    background-color:#3949A0;
+    padding:0.5rem 1rem;
+    margin:1rem 5%;
+    width:90%;
+}
+.followersSection > h3 {
+    font-size:1.25rem;
+    padding:0.5rem 0;
+}
+.followersContainer {
+    display:flex;
+    flex-wrap:wrap;
+    flex-flow:row;
+}
+.follower {
+    text-align:center;
+    flex-basis:7rem;
+}
+.follower a {
+    text-decoration:none;
+    color:inherit;
+}
+.profileImage {
+    width:4rem;
+    height:4rem;
+    background-repeat: no-repeat;
+    background-size:cover;
+    border-radius:50%;
+    margin:0 auto;
+}
+.followersContainer > p {
+    text-align:center;
+    width:100%;
+    font-style:italic;
+}
+.userRightContainer {
+    flex-basis:50%;
+    overflow: auto;
+    overflow-x: hidden;
+}
+.userConcertList {
+    width:100%;
+    
+}
+.noConcerts {
+    color:#FFF;
+    text-align:center;
+    font-style:italic;
 }
 @media (max-width:1366px) {
     .loginBanner {
@@ -143,8 +660,43 @@
     .registerBanner {
         display:none;
     }
+    .searchFormContainer {
+        width:100%;
+    }
+    .concertContainerContent {
+        height:fit-content;
+    }
     .concertImage {
         display:none;
+    }
+    .cardImageDescriptionContainer {
+        display:block;
+    }
+    .followersSection {
+        display:none;
+    }
+    .relatedConcertImage {
+        display:none;
+    }
+    .relatedConcertDetailsContainer {
+        flex:1;
+        flex-basis:100%; 
+    }
+    .relatedConcertDetailsContainer > p {
+        flex-basis:100%;
+        margin:0;
+    }
+    .userHeaderContainer {
+        flex-wrap:wrap;
+    }
+    .userImageContainer {
+        flex-basis:100%;
+    }
+    .userInfo {
+        margin:0 auto;
+    }
+    .userInfo > h1 {
+        margin:0 0 1rem 0;
     }
 }
 @media (max-width: 820px){
@@ -163,4 +715,68 @@
     .registerBanner {
         display:none;
     }
+    .pageListContainer {
+        width:100%;
+    }
+    .concertSection {
+        flex-flow:column;
+    }
+    .concertSectionLeft {
+        width:100%;
+        height:37.5vh;
+        min-height:auto;
+        overflow: auto;
+        overflow-x: hidden;
+    }
+    .concertSectionRight {
+        width:100%;
+        height:37.5vh;
+    }
+    .detailsLeftContainer {
+        width:100%;
+    }
+    .detailsRightContainer {
+        display:none;
+    }
+    .userPageContainer {
+        height:initial;
+        min-height:100vh;
+    }
+    .userContainer {
+        flex-wrap:wrap;
+        height:auto;
+    }
+    .userLeftContainer {
+        flex-basis:100%;
+    }
+    .userRightContainer {
+        flex-basis:100%;
+        overflow:visible;
+    }
+}
+.flash-success {
+    background-color:#4F935E;
+    border:none;
+    width:50%;
+    text-align:center;
+    margin:0 auto;
+    padding:1rem 0;
+}
+.flash-success-delete {
+    color:#373737;
+    background-color:#FF6A6A;
+    border:none;
+    width:50%;
+    text-align:center;
+    margin:0 auto;
+    padding:1rem 0;
+}
+.flash-error {
+    color:#373737;
+    background-color:#FF6A6A;
+    border:none;
+    width:50%;
+    text-align:center;
+    margin:0 auto;
+    padding:1rem 0;
 }

@@ -31,8 +31,10 @@ module.exports = {
         res.redirect(redirectUrl);
     },
     logoutUser(req,res) {
-        req.logout();
-        req.flash('success', 'You have successfully logged out');
-        res.redirect('/concerts');
+        req.logout((err) => {
+            if (err) {return next(err);}
+            req.flash('success', 'You have successfully logged out');
+            res.redirect('/concerts');
+        });
     }
 }
