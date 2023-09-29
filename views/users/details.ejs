@@ -20,7 +20,11 @@
                 <div class="followersContainer">
                     <% if (user.followers.length > 0) { %>
                     <% for (let i = 0; i < 7 && i < user.followers.length; i++) { %>
-                        <div class="follower" id="<% if (currentUser) { %><%=user.followers[i].username%><%}%>">
+                        <%if (currentUser) {%>
+                        <div class="follower" id="<%=user.followers[i].username%>">
+                        <%}else{%>
+                        <div class="follower">
+                        <%}%>
                             <div class="profileImage" style="background-image: url('<%= user.followers[i].image %>');"></div>
                             <p><a href="/user/<%=user.followers[i]._id%>"><%= user.followers[i].username %></a></p>
                         </div>
