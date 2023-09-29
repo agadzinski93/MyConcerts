@@ -1,23 +1,23 @@
 <div class="concertIndexContainer">
 
 <div class="searchFormContainer">
-    <form action="/concerts" method="GET" content-type="application/x-www-form-urlencoded" >
+    <form action="/concerts" method="GET" enctype="application/x-www-form-urlencoded" >
         <input type="text" name="search" placeholder="Enter title or location (e.g. &quot;California&quot; or &quot;Party&quot;)" value="<% if (textQuery) {%><%=textQuery%><% }%>">
-        <select name="num" id="">
+        <select name="num">
             <option value="1">1 per page</option>
             <option value="5">5 per page</option>
             <option value="10" selected>10 per page</option>
             <option value="30">30 per page</option>
             <option value="100">100 per page</option>
         </select>
-        <select name="sort" id="">
+        <select name="sort">
             <option value="none">Sort</option>
             <option value="titleA">Title [A...Z]</option>
             <option value="titleZ">Title [Z...A]</option>
             <option value="priceHigh">Price [Highest]</option>
             <option value="priceLow">Price [Lowest]</option>
         </select>
-        <input type="submit" value="&telrec;" ></input>
+        <input type="submit" value="&telrec;" >
     </form>
 </div>
 <% if (numOfPages > 1) { %>

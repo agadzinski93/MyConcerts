@@ -80,7 +80,11 @@
             <div class="attendeesContainer">
                 <% if (concert.attendees.length > 0) { %>
                 <% for (let i = 0; i < 7 && i < concert.attendees.length; i++) { %>
-                    <div class="attendee" id="<% if (currentUser) { %><%=concert.attendees[i].username%><%}%>">
+                    <% if (currentUser) { %>
+                    <div class="attendee" id="<%=concert.attendees[i].username%>">
+                    <%}else{%>
+                    <div class="attendee">
+                    <%}%>
                         <div class="profileImage" style="background-image: url('<%= concert.attendees[i].image %>');"></div>
                         <p><a class="userLink white" href="/user/<%=concert.attendees[i]._id%>"><%= concert.attendees[i].username %></a></p>
                     </div>
@@ -90,7 +94,7 @@
                 <% } %>
             </div>
         </div>
-        <section id="reviews" class="reviewHeader">Reviews</section>
+        <div id="reviews" class="reviewHeader">Reviews</div>
         <% if (currentUser) { %>
             <h2 class="leaveReviewTitle">Leave a Review</h2>
             <form class="mb-3 validation-required" action="/concerts/<%=concert._id%>/reviews" method="post" novalidate>

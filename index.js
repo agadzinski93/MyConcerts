@@ -33,7 +33,7 @@ const routeUsers = require("./routes/users");
 
 let mongoDBUrl = process.env.MONGODB_URI;
 if (process.env.NODE_ENV == "Development") {
-    mongoDBUrl = "mongodb://localhost:27017/concert-finder?readPreference=primary&appname=MongoDB%20Compass&ssl=false";
+    mongoDBUrl = "mongodb://127.0.0.1:27017/concert-finder?readPreference=primary&appname=MongoDB%20Compass&ssl=false";
 }
 
 
