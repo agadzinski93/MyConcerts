@@ -89,8 +89,14 @@ async function attendConcert(e) {
             myId: userId,
         })
     });
-    updateAttendStatus(true, true);
-    addAttendee();
+    let data = await result.json();
+    if (!data) {
+        console.error('Error Attending Concert');
+    }
+    else {
+        updateAttendStatus(true, true);
+        addAttendee();
+    }
 };
 async function unattendConcert(e) {
     e.stopPropagation();
@@ -103,8 +109,14 @@ async function unattendConcert(e) {
             myId: userId,
         })
     });
-    updateAttendStatus(false, true);
-    removeAttendee();
+    let data = await result.json();
+    if (!data) {
+        console.error('Error Unattending Concert');
+    }
+    else {
+        updateAttendStatus(false, true);
+        removeAttendee();
+    }
 };
 /**
  * 

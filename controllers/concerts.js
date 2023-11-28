@@ -218,19 +218,28 @@ module.exports = {
     async attendConcert(req, res) {
         let userID = req.body.myId;
         let concertID = req.params.id;
-        const concertResult = await Concert.updateOne({_id:{$eq:concertID}}, {$addToSet:{attendees:ObjectId(userID)}});
-        const userResult = await User.updateOne({_id:{$eq:userID}}, {$addToSet:{attending:ObjectId(concertID)}});
-
-        const result = {concertResult,userResult};
+        let result = null;
+        try {
+            const concertResult = await Concert.updateOne({_id:{$eq:concertID}}, {$addToSet:{attendees:new ObjectId(userID)}});
+            const userResult = await User.updateOne({_id:{$eq:userID}}, {$addToSet:{attending:new ObjectId(concertID)}});
+            result = {concertResult,userResult};
+        } catch(err) {
+            console.error(`${new Date(Date.now()).toString()} - Error attending concert - ${err.message}`);
+        }
         res.json(result);
     },
     async unattendConcert(req, res) {
         let userID = req.body.myId;
         let concertID = req.params.id;
-        const concertResult = await Concert.updateOne({_id:{$eq:concertID}}, {$pull:{attendees:ObjectId(userID)}});
-        const userResult = await User.updateOne({_id:{$eq:userID}}, {$pull:{attending:ObjectId(concertID)}});
+        let result = null;
+        try {
+            const concertResult = await Concert.updateOne({_id:{$eq:concertID}}, {$pull:{attendees:new ObjectId(userID)}});
+            const userResult = await User.updateOne({_id:{$eq:userID}}, {$pull:{attending:new ObjectId(concertID)}});
 
-        const result = {concertResult,userResult};
+            result = {concertResult,userResult};
+        } catch (err) {
+            console.error(`${new Date(Date.now()).toString()} - Error unattending concert - ${err.message}`);
+        }
         res.json(result);
     }
 }

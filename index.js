@@ -2,13 +2,12 @@ require('dotenv').config();
 
 const mongoSecret = process.env.MONGO_SECRET;
 const express = require("express");
-const cors = require('cors');
 const mongoose = require("mongoose");
 const mongoSanitize = require("express-mongo-sanitize");
 const MongoStore = require("connect-mongo");
 const expressLayouts = require("express-ejs-layouts");
 const session = require("express-session");
-//const helmet = require("helmet");
+const helmet = require("helmet");
 const flash = require("connect-flash");
 const methodOverride = require("method-override");
 const app = express();
@@ -19,12 +18,23 @@ const passport = require("passport");
 const localStrategy = require("passport-local");
 const User = require("./models/user");
 
-app.use(cors());
 app.use(
     mongoSanitize({
         replaceWith:"_",
     })
 );
+
+//Web Content Policy and CORS
+app.use(helmet({
+    contentSecurityPolicy:{
+      useDefaults:true,
+      directives:{
+        imgSrc:["'self'","data:","https://res.cloudinary.com"],
+        scriptSrc:["'self'","'unsafe-inline'","blob:",'https://cdn.jsdelivr.net','https://api.mapbox.com'],
+        defaultSrc:["'self'","https://api.mapbox.com","https://events.mapbox.com"]
+      }
+    },
+}));
 
 //Routes
 const routeConcert = require("./routes/concerts");
@@ -32,17 +42,13 @@ const routeReviews = require("./routes/reviews");
 const routeUsers = require("./routes/users");
 
 let mongoDBUrl = process.env.MONGODB_URI;
-if (process.env.NODE_ENV == "Development") {
+if (process.env.NODE_ENV === "development") {
     mongoDBUrl = "mongodb://127.0.0.1:27017/concert-finder?readPreference=primary&appname=MongoDB%20Compass&ssl=false";
 }
 
 
-mongoose.connect(mongoDBUrl,{
-    useNewUrlParser:true,
-    useCreateIndex:true,
-    useUnifiedTopology:true,
-    useFindAndModify:false
-}).catch(() => new ExpressError("Failed to Connect to MongoDB Atlas", 500));
+mongoose.connect(mongoDBUrl).
+    catch(() => new ExpressError("Failed to Connect to MongoDB Atlas", 500));
 
 const db = mongoose.connection;
 db.on("error",console.error.bind(console,"connection error:"));
@@ -78,15 +84,14 @@ const sessionConfig = {
     resave: false,
     saveUninitialized: true,
     cookie: {
-        expires: Date.now() + (1000 * 60 *60 * 24 * 7),
         maxAge: 1000 * 60 *60 * 24 * 7,
-        httpOnly: false,
+        httpOnly: true,
         sameSite:'strict',
+        secure: (process.env.NODE_ENV === 'production') ? true : false
     }
 }
 app.use(session(sessionConfig));
 app.use(flash());
-//app.use(helmet({ contentSecurityPolicy: false }));
 
 app.use(passport.initialize());
 app.use(passport.session());    //Must use AFTER session()
