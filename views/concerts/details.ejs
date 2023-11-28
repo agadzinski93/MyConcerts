@@ -157,7 +157,7 @@
         <% if (related.length > 0) { %>
             <div class="relatedSearchContainer">
                 <% for(let c of related) { %>
-                <a class="hi" href="/concerts/<%= c._id %>">
+                <a href="/concerts/<%= c._id %>">
                     <div class="relatedConcertContainer">
                         <div class="relatedConcertImage" style="background-image:url('<%= c.image.url %>')"></div>
                         <div class="relatedConcertDetailsContainer">

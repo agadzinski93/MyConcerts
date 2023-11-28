@@ -10,8 +10,14 @@ async function followUser(e) {
             authorId: authorId,
         })
     });
-    updateFollowStatus(true, true);
-    addFollower();
+    let data = await result.json();
+    if (data !== null) {
+        updateFollowStatus(true, true);
+        addFollower();
+    }
+    else {
+        console.error('Error following user.');
+    }
 };
 async function unFollowUser(e) {
     e.stopPropagation();
@@ -25,8 +31,14 @@ async function unFollowUser(e) {
             authorId: authorId,
         })
     });
-    updateFollowStatus(false, true);
-    removeFollower();
+    let data = await result.json();
+    if (data !== null) {
+        updateFollowStatus(false, true);
+        removeFollower();
+    }
+    else {
+        console.error('Error unfollowing user.');
+    }
 };
 /**
  * 

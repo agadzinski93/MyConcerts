@@ -1,5 +1,5 @@
 .env
-/assets
+/public/assets
 /node_modules
 Procfile
 
