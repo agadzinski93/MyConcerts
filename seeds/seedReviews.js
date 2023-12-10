@@ -11,15 +11,11 @@ const Concert = require("../models/concert");
 const Review = require("../models/review");
 const User = require("../models/user");
 
-const mongoURI = (process.env.NODE_ENV === "Development") ? 
+const mongoURI = (process.env.NODE_ENV === "development") ? 
     "mongodb://127.0.0.1:27017/concert-finder" : 
     process.env.MONGODB_URI;
 
-mongoose.connect(mongoURI,{
-    useNewUrlParser:true,
-    useUnifiedTopology:true,
-    useCreateIndex:true,
-});
+mongoose.connect(mongoURI);
 const db = mongoose.connection;
 db.on("error",console.error.bind(console,"connection error:"));
 db.once("open",()=>{
@@ -35,24 +31,36 @@ async function getUsers() {
 }
 
 async function seedReviews(){
-    const {users,numOfUsers} = await getUsers();
-    await Review.deleteMany({});
-    const concerts = await Concert.find({},{reviews:1});
-    let review;
-    for (let i = 0; i < concerts.length; i += 2) {
-        let numOfReviews = Math.floor(Math.random() * numOfUsers) + 1;
-        for (let j = 0; j < numOfReviews; j++) {
-            let rating = Math.floor(Math.random() * 5) + 1;
-            let review = new Review({
-                rating,
-                author:users[j]._id,
-                body:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse finibus neque at justo luctus efficitur. Praesent luctus ante at diam sagittis dapibus. Phasellus dictum commodo libero, id ultricies purus. Donec et turpis at ex scelerisque finibus vitae nec lectus."
-            });
-            await review.save();
-            concerts[i].reviews.push(review);
-            await concerts[i].save();
+    let output = null;
+    try {
+        const {users,numOfUsers} = await getUsers();
+        output = await Review.deleteMany({});
+        console.log('Deleted Reviews');
+        console.log(output);
+        output = await Concert.updateMany({},{$set:{'reviews':[]}});
+        console.log('Emptying Review Arrays in Concerts');
+        console.log(output);
+        const concerts = await Concert.find({},{reviews:1});
+        let review;
+        for (let i = 0; i < concerts.length; i++) {
+            if ((i+1) % 3 !== 0) {
+                let numOfReviews = Math.floor(Math.random() * numOfUsers) + 1;
+                for (let j = 0; j < numOfReviews; j++) {
+                    let rating = Math.floor(Math.random() * 5) + 1;
+                    review = new Review({
+                        rating,
+                        author:users[j]._id,
+                        body:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse finibus neque at justo luctus efficitur. Praesent luctus ante at diam sagittis dapibus. Phasellus dictum commodo libero, id ultricies purus. Donec et turpis at ex scelerisque finibus vitae nec lectus."
+                    });
+                    await review.save();
+                    concerts[i].reviews.push(review);
+                    await concerts[i].save();
+                }
+            }
         }
-        
+        console.log('Seeding Reviews Completed!');
+    } catch (err) {
+        console.error(`Error Seeding Reviews: ${err.stack}`);
     }
 }
 
