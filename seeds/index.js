@@ -4,11 +4,7 @@ const {places,descriptors} = require("./seedHelpers");
 const Concert = require("../models/concert");
 const Review = require("../models/review");
 
-mongoose.connect("mongodb://localhost:27017/concert-finder",{
-    useNewUrlParser:true,
-    useCreateIndex:true,
-    useUnifiedTopology:true
-});
+mongoose.connect("mongodb://localhost:27017/concert-finder");
 
 const db = mongoose.connection;
 db.on("error",console.error.bind(console,"connection error:"));

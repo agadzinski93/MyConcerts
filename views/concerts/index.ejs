@@ -1,16 +1,17 @@
+<h1>Browse</h1>
 <div class="concertIndexContainer">
-
 <div class="searchFormContainer">
     <form action="/concerts" method="GET" enctype="application/x-www-form-urlencoded" >
         <input type="text" name="search" placeholder="Enter title or location (e.g. &quot;California&quot; or &quot;Party&quot;)" value="<% if (textQuery) {%><%=textQuery%><% }%>">
-        <select name="num">
+        
+        <select aria-label="num" name="num">
             <option value="1">1 per page</option>
             <option value="5">5 per page</option>
             <option value="10" selected>10 per page</option>
             <option value="30">30 per page</option>
             <option value="100">100 per page</option>
         </select>
-        <select name="sort">
+        <select aria-label="sort" name="sort">
             <option value="none">Sort</option>
             <option value="titleA">Title [A...Z]</option>
             <option value="titleZ">Title [Z...A]</option>
@@ -88,7 +89,7 @@
                         <div class="concertBody">
                             <div class="card-body">
                                 <div class="concertTitlePriceContainer">
-                                    <h5 class="card-title concertTitlePrice"><%= concerts[i].title %> <span style="float:right">&dollar;<%=concerts[i].price%></span></h5>
+                                    <h2 class="card-title concertTitlePrice"><%= concerts[i].title %> <span style="float:right">&dollar;<%=concerts[i].price%></span></h2>
                                 </div>
                                 <p class="card-text concertDescription"><%= concerts[i].description %></p>
                                 <p class="card-text concertLocation text-muted"><%= concerts[i].location %></p>

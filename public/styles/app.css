@@ -1,19 +1,36 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+h1 {
+    color:#FFF;
+    font-size:2rem;
+    text-align:center;
+}
 .navbar a:focus-visible {
     outline:none;
     border:solid 2px #FF0000;
-}
-.searchFormContainer :is(input,select):focus-visible {
-    outline:none;
-    background-color:#434343;
-    color:#FFF;
 }
 .searchFormContainer input[type=submit]:focus-visible {
     outline:solid 2px #FF0000;
 }
 a:focus-visible {
-    outline:solid 2px #FF0000;
-}
-:is(input,button):focus-visible {
     outline:solid 2px #FF0000;
 }
 .container {
@@ -33,8 +50,7 @@ a:focus-visible {
     display:none;
 }
 a.userLink {
-    text-decoration:none;
-    color:#B3B2B2;
+    color:#cfcfcf;
 }
 a.white {
     color:#FFF;
@@ -84,7 +100,7 @@ a.white {
 .btnLogin {
     color:white;
     text-transform: uppercase;;
-    background-color:#2497BC;
+    background-color:#0a7ca1;
     border:none;
     padding:1rem 2rem;
     margin-top:3rem;
@@ -103,7 +119,7 @@ a.white {
 .btnRegister {
     color:white;
     text-transform: uppercase;;
-    background-color:#2497BC;
+    background-color:#0a7ca1;
     border:none;
     padding:1rem 2rem;
     margin-top:2rem;
@@ -132,6 +148,12 @@ a.white {
 }
 .concertSectionRight {
     width:50%;
+}
+.concertTitlePrice {
+    font-size:1.5rem;
+}
+.concertTitlePrice > span {
+    font-size:1rem;
 }
 .searchFormContainer {
     text-align:left;
@@ -190,6 +212,9 @@ a.white {
 }
 .concertContainer > a:focus-visible > .concertContainerContent {
     background-color:#5A0000;
+}
+.concertContainer > a > .concertContainerContent .concertLocation {
+    color:#cfcfcf;
 }
 .concertContainer > a:focus-visible > .concertContainerContent .concertLocation {
     color:#FFF !important;
@@ -289,6 +314,7 @@ a.white {
     display:flex;
     border-top:solid 1px #FFFFFF;
     padding:0.5rem 0 0.5rem;
+    margin-top:0.5rem;
 }
 .concertPrice {
     flex:1;
@@ -362,7 +388,7 @@ a.white {
     margin:0;
 }
 .relatedConcertDetailsContainer > p:nth-child(2) {
-    color:#B3B2B2;
+    color:#cfcfcf;
 }
 .relatedConcertDetailsContainer > p:last-child {
     margin-top:1rem;
@@ -639,7 +665,7 @@ a.white {
     margin:1rem 5%;
     width:90%;
 }
-.followersSection > h3 {
+.followersSection > h2 {
     font-size:1.25rem;
     padding:0.5rem 0;
 }

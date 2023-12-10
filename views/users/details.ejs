@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="followersSection">
-                <h3>Followers</h3>
+                <h2>Followers</h2>
                 <div class="followersContainer">
                     <% if (user.followers.length > 0) { %>
                     <% for (let i = 0; i < 7 && i < user.followers.length; i++) { %>
@@ -50,7 +50,7 @@
                                 
                                     <div class="concertBody">
                                         <div class="card-body">
-                                            <h5 class="card-title concertTitle"><%= concerts[i].title %></h5>
+                                            <h3 class="card-title concertTitle"><%= concerts[i].title %></h3>
                                             <p class="card-text concertDescription"><%= concerts[i].description %></p>
                                             <p class="card-text text-muted concertLocation"><%= concerts[i].location %></p>
                                         </div>
