@@ -14,7 +14,7 @@
                 <div class="cardDescription">
                     <div class="card-body">
                         <div class="cardTitleIconContainer">
-                            <h5 class="card-title"><%= concert.title %></h5>
+                            <h1 class="card-title"><%= concert.title %></h1>
                             <% if (currentUser && concert.author.equals(currentUser._id)) { %>
                             <div>
                                 <a class="btnIcon" href="/concerts/<%= concert._id %>/edit">
@@ -38,7 +38,7 @@
                             <% } else { %> 
                                 reviews
                             <% } %></p>
-                        <h6 class="card-title">Created by <a class="userLink" href="/user/<%=concert.author._id%>"><%= concert.author.username %></a> 
+                        <h2 class="card-title">Created by <a class="userLink" href="/user/<%=concert.author._id%>"><%= concert.author.username %></a> 
                             <% if (currentUser) { %> 
                                 <button id="follow" class="follow">Follow</button>
                                 <button id="unfollow" class="unfollow">Unfollow</button>
@@ -46,7 +46,7 @@
                         <p class="card-text"><%= concert.description %></p>
                         <div class="concertPriceLocationContainer">
                             <p class="concertPrice">$<%= concert.price %>/person</p>
-                            <p class="concertLocation text-muted"><%= concert.location %></p>  
+                            <p class="concertLocation"><%= concert.location %></p>  
                         </div>
                     </div>
                 </div>
