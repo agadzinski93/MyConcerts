@@ -1,3 +1,4 @@
+.cpanel.yml
 .env
 /public/assets
 /node_modules
